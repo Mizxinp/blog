@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  name      String?
+  avatarUrl String?
+  role      Role     @default(OWNER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  posts     Post[]
+
+  @@map("users")
+}
+
+model Post {
+  id          Int        @id @default(autoincrement())
+  slug        String     @unique
+  title       String
+  summary     String?    @db.Text
+  contentMd   String     @db.LongText
+  contentHtml String?    @db.LongText
+  status      PostStatus @default(DRAFT)
+  publishAt   DateTime?
+  authorId    Int
+  coverUrl    String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  deletedAt   DateTime?
+  tags        PostTag[]
+  author      User       @relation(fields: [authorId], references: [id])
+
+  @@index([authorId], map: "posts_authorId_fkey")
+  @@map("posts")
+}
+
+model Tag {
+  id    Int       @id @default(autoincrement())
+  name  String
+  slug  String    @unique
+  posts PostTag[]
+
+  @@map("tags")
+}
+
+model PostTag {
+  postId Int
+  tagId  Int
+  post   Post @relation(fields: [postId], references: [id])
+  tag    Tag  @relation(fields: [tagId], references: [id])
+
+  @@id([postId, tagId])
+  @@index([tagId], map: "post_tags_tagId_fkey")
+  @@map("post_tags")
+}
+
+enum Role {
+  OWNER
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+  DELETED_SOFT
+}

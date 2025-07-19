@@ -1,0 +1,14 @@
+# 排除不需要的文件
+node_modules
+.git
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.log
+.DS_Store
+
+# 保留构建产物和配置文件
+!.next/standalone
+!.next/static
+!.env 
