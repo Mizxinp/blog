@@ -186,108 +186,149 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
   }
 
   return (
-    <div className="container py-8 max-w-4xl">
+    <div className="h-screen flex flex-col">
       {/* 顶部工具栏 */}
-      <div className="flex items-center justify-between mb-8">
-        <div className="flex items-center gap-4">
-          <Button variant="ghost" size="sm" asChild>
-            <Link href="/admin">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              返回管理
-            </Link>
-          </Button>
-          
-          <div className="flex items-center gap-2">
-            <Badge variant={post.status === 'PUBLISHED' ? 'default' : 'secondary'}>
-              {post.status === 'PUBLISHED' ? '已发布' : '草稿'}
-            </Badge>
-            {saving && <span className="text-sm text-muted-foreground">保存中...</span>}
-          </div>
-        </div>
-
-        <div className="flex items-center gap-2">
-          {post.status === 'PUBLISHED' && (
-            <Button variant="outline" size="sm" asChild>
-              <Link href={`/posts/${post.slug}`}>
-                <Eye className="mr-2 h-4 w-4" />
-                预览
+      <div className="border-b px-6 py-4 bg-background">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Button variant="ghost" size="sm" asChild>
+              <Link href="/admin">
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                返回管理
               </Link>
             </Button>
-          )}
-          
-          <Button 
-            variant="outline" 
-            size="sm" 
-            onClick={() => handleSave(true)}
-            disabled={saving}
-          >
-            <Save className="mr-2 h-4 w-4" />
-            保存
-          </Button>
-          
-          <Button 
-            size="sm" 
-            onClick={handlePublish}
-            disabled={publishing || saving}
-          >
-            <Send className="mr-2 h-4 w-4" />
-            {post.status === 'PUBLISHED' ? '更新' : '发布'}
-          </Button>
+            
+            <div className="flex items-center gap-2">
+              <Badge variant={post.status === 'PUBLISHED' ? 'default' : 'secondary'}>
+                {post.status === 'PUBLISHED' ? '已发布' : '草稿'}
+              </Badge>
+              {saving && <span className="text-sm text-muted-foreground">保存中...</span>}
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            {post.status === 'PUBLISHED' && (
+              <Button variant="outline" size="sm" asChild>
+                <Link href={`/posts/${post.slug}`}>
+                  <Eye className="mr-2 h-4 w-4" />
+                  预览
+                </Link>
+              </Button>
+            )}
+            
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => handleSave(true)}
+              disabled={saving}
+            >
+              <Save className="mr-2 h-4 w-4" />
+              保存
+            </Button>
+            
+            <Button 
+              size="sm" 
+              onClick={handlePublish}
+              disabled={publishing || saving}
+            >
+              <Send className="mr-2 h-4 w-4" />
+              {post.status === 'PUBLISHED' ? '更新' : '发布'}
+            </Button>
+          </div>
         </div>
       </div>
 
-      {/* 编辑器主体 */}
-      <div className="space-y-6">
-        {/* 标题 */}
-        <div>
-          <Input
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="文章标题..."
-            className="text-4xl font-bold border-none p-0 h-auto focus-visible:ring-0 text-foreground placeholder:text-muted-foreground"
-            style={{ fontSize: '2.25rem', lineHeight: '2.5rem' }}
-          />
-        </div>
-
-        <Separator />
-
-        {/* 摘要 */}
-        <div className="space-y-2">
-          <Label htmlFor="summary">摘要（可选）</Label>
-          <Textarea
-            id="summary"
-            value={summary}
-            onChange={(e) => setSummary(e.target.value)}
-            placeholder="为文章添加一段简短的摘要..."
-            className="min-h-[60px] resize-none"
-          />
-        </div>
-
-        {/* 内容编辑器 */}
-        <div className="space-y-2">
-          <Label htmlFor="content">内容</Label>
-          <Textarea
-            id="content"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            placeholder="开始写作... 支持 Markdown 语法"
-            className="min-h-[500px] font-mono text-sm leading-relaxed"
-          />
-        </div>
-
-        {/* 预览区域 */}
-        {content && (
-          <Card>
-            <CardHeader>
-              <CardTitle>预览</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="prose prose-sm dark:prose-invert max-w-none">
-                <div className="whitespace-pre-wrap">{content}</div>
+      {/* 主编辑区域 - 左右分屏 */}
+      <div className="flex-1 flex overflow-hidden">
+        {/* 左侧编辑器 */}
+        <div className="w-1/2 border-r flex flex-col">
+          <div className="p-6 flex-1 overflow-auto">
+            <div className="space-y-6">
+              {/* 标题 */}
+              <div>
+                <Input
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder="文章标题..."
+                  className="text-2xl md:text-3xl font-bold border-none p-0 h-auto focus-visible:ring-0 text-foreground placeholder:text-muted-foreground"
+                  style={{ fontSize: '1.875rem', lineHeight: '2.25rem' }}
+                />
               </div>
-            </CardContent>
-          </Card>
-        )}
+
+              <Separator />
+
+              {/* 摘要 */}
+              <div className="space-y-2">
+                <Label htmlFor="summary" className="text-sm font-medium">摘要（可选）</Label>
+                <Textarea
+                  id="summary"
+                  value={summary}
+                  onChange={(e) => setSummary(e.target.value)}
+                  placeholder="为文章添加一段简短的摘要..."
+                  className="min-h-[80px] resize-none"
+                />
+              </div>
+
+              {/* 内容编辑器 */}
+              <div className="space-y-2 flex-1">
+                <Label htmlFor="content" className="text-sm font-medium">内容</Label>
+                <Textarea
+                  id="content"
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  placeholder="开始写作... 支持 Markdown 语法"
+                  className="min-h-[400px] font-mono text-sm leading-relaxed resize-none"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 右侧预览 */}
+        <div className="w-1/2 flex flex-col bg-muted/30">
+          <div className="p-4 border-b bg-background">
+            <h3 className="font-medium text-sm text-muted-foreground">实时预览</h3>
+          </div>
+          <div className="flex-1 overflow-auto p-6">
+            {title || content || summary ? (
+              <div className="bg-background rounded-lg p-6 shadow-sm">
+                {/* 预览标题 */}
+                {title && (
+                  <h1 className="text-2xl md:text-3xl font-bold mb-4 leading-tight">
+                    {title}
+                  </h1>
+                )}
+                
+                {/* 预览摘要 */}
+                {summary && (
+                  <p className="text-muted-foreground mb-6 leading-relaxed">
+                    {summary}
+                  </p>
+                )}
+                
+                {summary && content && <Separator className="mb-6" />}
+                
+                {/* 预览内容 */}
+                {content && (
+                  <div className="prose prose-sm dark:prose-invert max-w-none">
+                    <div className="whitespace-pre-wrap leading-relaxed">
+                      {content}
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="flex items-center justify-center h-full text-center">
+                <div>
+                  <p className="text-muted-foreground mb-2">开始编写文章</p>
+                  <p className="text-sm text-muted-foreground">
+                    在左侧输入标题和内容，这里会显示实时预览
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   )

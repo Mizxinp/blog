@@ -106,14 +106,20 @@ function PostsPageContent() {
   }
 
   return (
-    <div className="container py-8">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-6">文章列表</h1>
+    <div className="py-8">
+      {/* 页面标题和搜索区域 */}
+      <div className="mb-12">
+        <div className="text-center mb-8">
+          <h1 className="text-3xl md:text-4xl font-bold mb-4">技术文章</h1>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            分享前端开发、技术思考和实践经验
+          </p>
+        </div>
         
         {/* 搜索框 */}
-        <div className="mb-6">
+        <div className="flex justify-center mb-8">
           <Input
-            placeholder="搜索文章..."
+            placeholder="搜索文章标题、内容..."
             value={searchQuery}
             onChange={(e) => handleSearch(e.target.value)}
             className="max-w-md"
@@ -122,13 +128,14 @@ function PostsPageContent() {
 
         {/* 标签筛选 */}
         {tags.length > 0 && (
-          <div className="mb-6">
-            <div className="flex flex-wrap gap-2 mb-2">
+          <div className="max-w-4xl mx-auto">
+            <h3 className="text-sm font-medium text-muted-foreground mb-4">按标签筛选</h3>
+            <div className="flex flex-wrap gap-3 mb-6">
               {tags.map((tag) => (
                 <Badge
                   key={tag.id}
-                  variant={currentTag === tag.slug ? "default" : "outline"}
-                  className="cursor-pointer hover:bg-primary/10 transition-colors"
+                  variant={currentTag === tag.slug ? "default" : "secondary"}
+                  className="cursor-pointer hover:bg-primary/10 transition-colors text-sm py-1 px-3"
                   onClick={() => handleTagClick(tag.slug)}
                 >
                   {tag.name} ({tag.postCount})
@@ -137,47 +144,58 @@ function PostsPageContent() {
             </div>
             
             {(searchQuery || currentTag) && (
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={clearFilters}
-              >
-                清除筛选
-              </Button>
+              <div className="flex justify-center">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={clearFilters}
+                >
+                  清除筛选条件
+                </Button>
+              </div>
             )}
           </div>
         )}
       </div>
 
       {/* 文章列表 */}
-      {loading ? (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="space-y-4">
-              <Skeleton className="h-48 w-full" />
-              <Skeleton className="h-4 w-3/4" />
-              <Skeleton className="h-4 w-1/2" />
+      <div className="max-w-6xl mx-auto">
+        {loading ? (
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="space-y-4">
+                <Skeleton className="h-48 w-full rounded-lg" />
+                <Skeleton className="h-6 w-3/4" />
+                <Skeleton className="h-4 w-1/2" />
+              </div>
+            ))}
+          </div>
+        ) : posts.length > 0 ? (
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {posts.map((post) => (
+              <PostCard key={post.id} post={post} />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-20">
+            <div className="max-w-md mx-auto">
+              <h3 className="text-lg font-medium mb-2">
+                {searchQuery || currentTag ? '没有找到匹配的文章' : '还没有发布文章'}
+              </h3>
+              <p className="text-muted-foreground mb-6">
+                {searchQuery || currentTag 
+                  ? '试试调整搜索条件或浏览其他内容' 
+                  : '敬请期待更多精彩内容'}
+              </p>
+              {(searchQuery || currentTag) && (
+                <Button variant="outline" onClick={clearFilters}>
+                  查看所有文章
+                </Button>
+              )}
             </div>
-          ))}
-        </div>
-      ) : posts.length > 0 ? (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {posts.map((post) => (
-            <PostCard key={post.id} post={post} />
-          ))}
-        </div>
-      ) : (
-        <div className="text-center py-16">
-          <p className="text-muted-foreground mb-4">
-            {searchQuery || currentTag ? '没有找到匹配的文章' : '还没有文章'}
-          </p>
-          {(searchQuery || currentTag) && (
-            <Button variant="outline" onClick={clearFilters}>
-              查看所有文章
-            </Button>
-          )}
-        </div>
-      )}
+          </div>
+        )}
+      </div>
     </div>
   )
 }
