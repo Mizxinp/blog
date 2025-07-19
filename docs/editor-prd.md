@@ -190,3 +190,11 @@ Response:
 - 图片上传自动图床
 - 历史版本 / diff
 - 多语言内容
+
+## 新增需求2.0，编辑器功能增强
+
+- 替换掉目前文章编辑基础的textarea组件，使用富文本编辑器开源库：tiptap
+- tiptap github地址：https://github.com/ueberdosis/tiptap?tab=readme-ov-file
+- 站点相关文档：
+  - https://tiptap.dev
+  - https://tiptap.dev/docs/editor/getting-started/install/nextjs

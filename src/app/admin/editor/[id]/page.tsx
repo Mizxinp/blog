@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
+import { TiptapEditorWrapper } from '@/components/tiptap-editor-wrapper'
+import '@/components/tiptap-editor.css'
 import { Label } from '@/components/ui/label'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -272,12 +274,11 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
               {/* 内容编辑器 */}
               <div className="space-y-2 flex-1">
                 <Label htmlFor="content" className="text-sm font-medium">内容</Label>
-                <Textarea
-                  id="content"
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                  placeholder="开始写作... 支持 Markdown 语法"
-                  className="min-h-[400px] font-mono text-sm leading-relaxed resize-none"
+                <TiptapEditorWrapper
+                  content={content}
+                  onChange={setContent}
+                  placeholder="开始写作... 支持富文本编辑"
+                  className="min-h-[400px]"
                 />
               </div>
             </div>
@@ -311,9 +312,10 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
                 {/* 预览内容 */}
                 {content && (
                   <div className="prose prose-sm dark:prose-invert max-w-none">
-                    <div className="whitespace-pre-wrap leading-relaxed">
-                      {content}
-                    </div>
+                    <div 
+                      className="leading-relaxed preview-content"
+                      dangerouslySetInnerHTML={{ __html: content }}
+                    />
                   </div>
                 )}
               </div>

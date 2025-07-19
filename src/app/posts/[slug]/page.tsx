@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import "@/components/tiptap-editor.css";
 import { ArrowLeft, Calendar, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -150,11 +151,9 @@ export default async function PostDetailPage({
         {/* 文章内容 */}
         <div className="prose prose-lg dark:prose-invert max-w-none prose-headings:text-foreground prose-p:text-foreground prose-strong:text-foreground prose-code:text-foreground prose-pre:bg-muted prose-pre:border">
           {post.contentHtml ? (
-            <div dangerouslySetInnerHTML={{ __html: post.contentHtml }} />
+            <div className="preview-content" dangerouslySetInnerHTML={{ __html: post.contentHtml }} />
           ) : (
-            <div className="whitespace-pre-wrap leading-relaxed text-foreground">
-              {post.contentMd}
-            </div>
+            <div className="preview-content" dangerouslySetInnerHTML={{ __html: post.contentMd }} />
           )}
         </div>
 
