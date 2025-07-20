@@ -127,33 +127,36 @@ export default async function PostDetailPage({
                 更新于 {new Date(post.updatedAt).toLocaleDateString("zh-CN")}
               </span>
             </div>
+            {/* 标签 */}
+            {post.tags.length > 0 && (
+              <div className="flex flex-wrap gap-3">
+                {post.tags.map((tag) => (
+                  <Link key={tag.id} href={`/posts?tag=${tag.slug}`}>
+                    <Badge
+                      variant="secondary"
+                      className="hover:bg-primary/10 transition-colors text-xs"
+                    >
+                      {tag.name}
+                    </Badge>
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
-
-          {/* 标签 */}
-          {post.tags.length > 0 && (
-            <div className="flex flex-wrap gap-3 mb-8">
-              {post.tags.map((tag) => (
-                <Link key={tag.id} href={`/posts?tag=${tag.slug}`}>
-                  <Badge
-                    variant="secondary"
-                    className="hover:bg-primary/10 transition-colors text-xs"
-                  >
-                    {tag.name}
-                  </Badge>
-                </Link>
-              ))}
-            </div>
-          )}
-
-          <Separator className="mb-12" />
         </header>
 
         {/* 文章内容 */}
         <div className="prose prose-lg dark:prose-invert max-w-none prose-headings:text-foreground prose-p:text-foreground prose-strong:text-foreground prose-code:text-foreground prose-pre:bg-muted prose-pre:border">
           {post.contentHtml ? (
-            <div className="preview-content" dangerouslySetInnerHTML={{ __html: post.contentHtml }} />
+            <div
+              className="preview-content"
+              dangerouslySetInnerHTML={{ __html: post.contentHtml }}
+            />
           ) : (
-            <div className="preview-content" dangerouslySetInnerHTML={{ __html: post.contentMd }} />
+            <div
+              className="preview-content"
+              dangerouslySetInnerHTML={{ __html: post.contentMd }}
+            />
           )}
         </div>
 
@@ -162,7 +165,7 @@ export default async function PostDetailPage({
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-4">
               <p className="text-sm text-muted-foreground">
-                感谢阅读！如果觉得有用，欢迎分享给更多人。
+                {/* 感谢阅读！如果觉得有用，欢迎分享给更多人。 */}
               </p>
             </div>
 

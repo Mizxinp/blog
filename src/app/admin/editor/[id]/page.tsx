@@ -11,6 +11,7 @@ import { Label } from '@/components/ui/label'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
+import { TagSelector } from '@/components/tag-selector'
 import { ArrowLeft, Save, Send, Eye } from 'lucide-react'
 import { toast } from 'sonner'
 import Link from 'next/link'
@@ -37,6 +38,7 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
   const [summary, setSummary] = useState('')
+  const [selectedTags, setSelectedTags] = useState<Array<{id: number, name: string, slug: string}>>([])
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [publishing, setPublishing] = useState(false)
@@ -59,13 +61,14 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
     if (!post) return
     
     const timer = setTimeout(() => {
-      if (title !== post.title || content !== post.contentMd || summary !== (post.summary || '')) {
+      if (title !== post.title || content !== post.contentMd || summary !== (post.summary || '') || 
+          JSON.stringify(selectedTags.map(t => t.id).sort()) !== JSON.stringify((post.tags || []).map(t => t.id).sort())) {
         handleSave(false)
       }
     }, 2000)
 
     return () => clearTimeout(timer)
-  }, [title, content, summary, post])
+  }, [title, content, summary, selectedTags, post])
 
   async function fetchPost() {
     try {
@@ -78,6 +81,7 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
         setTitle(postData.title)
         setContent(postData.contentMd)
         setSummary(postData.summary || '')
+        setSelectedTags(postData.tags || [])
       } else {
         toast.error('文章不存在')
         router.push('/admin')
@@ -102,7 +106,8 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
         body: JSON.stringify({
           title,
           contentMd: content,
-          summary: summary || null
+          summary: summary || null,
+          tags: selectedTags.map(tag => tag.id)
         }),
       })
 
@@ -113,7 +118,7 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
           toast.success('保存成功')
         }
         // 更新本地状态
-        setPost(prev => prev ? { ...prev, title, contentMd: content, summary } : null)
+        setPost(prev => prev ? { ...prev, title, contentMd: content, summary, tags: selectedTags } : null)
       } else {
         toast.error(data.message || '保存失败')
       }
@@ -240,10 +245,10 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
         </div>
       </div>
 
-      {/* 主编辑区域 - 左右分屏 */}
+      {/* 主编辑区域 - 全屏编辑 */}
       <div className="flex-1 flex overflow-hidden">
-        {/* 左侧编辑器 */}
-        <div className="w-1/2 border-r flex flex-col">
+        {/* 编辑器 */}
+        <div className="w-full flex flex-col">
           <div className="p-6 flex-1 overflow-auto">
             <div className="space-y-6">
               {/* 标题 */}
@@ -271,6 +276,12 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
                 />
               </div>
 
+              {/* 标签选择 */}
+              <TagSelector
+                selectedTags={selectedTags}
+                onTagsChange={setSelectedTags}
+              />
+
               {/* 内容编辑器 */}
               <div className="space-y-2 flex-1">
                 <Label htmlFor="content" className="text-sm font-medium">内容</Label>
@@ -285,7 +296,7 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
           </div>
         </div>
 
-        {/* 右侧预览 */}
+        {/* 实时预览功能暂时注释掉 
         <div className="w-1/2 flex flex-col bg-muted/30">
           <div className="p-4 border-b bg-background">
             <h3 className="font-medium text-sm text-muted-foreground">实时预览</h3>
@@ -293,14 +304,12 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
           <div className="flex-1 overflow-auto p-6">
             {title || content || summary ? (
               <div className="bg-background rounded-lg p-6 shadow-sm">
-                {/* 预览标题 */}
                 {title && (
                   <h1 className="text-2xl md:text-3xl font-bold mb-4 leading-tight">
                     {title}
                   </h1>
                 )}
                 
-                {/* 预览摘要 */}
                 {summary && (
                   <p className="text-muted-foreground mb-6 leading-relaxed">
                     {summary}
@@ -309,7 +318,6 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
                 
                 {summary && content && <Separator className="mb-6" />}
                 
-                {/* 预览内容 */}
                 {content && (
                   <div className="prose prose-sm dark:prose-invert max-w-none">
                     <div 
@@ -331,6 +339,7 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
             )}
           </div>
         </div>
+        */}
       </div>
     </div>
   )

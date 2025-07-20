@@ -74,6 +74,8 @@ async function handleGetPosts(req: NextRequest) {
     title: post.title,
     summary: post.summary || extractSummary(post.contentMd),
     publishAt: post.publishAt,
+    status: post.status,
+    updatedAt: post.updatedAt,
     tags: post.tags.map(({ tag }) => ({
       id: tag.id,
       name: tag.name,
