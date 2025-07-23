@@ -45,9 +45,7 @@ export function PostCard({ post }: PostCardProps) {
         <CardContent className="pt-0">
           <div className="space-y-4">
             {post.summary && (
-              <p className="text-sm text-muted-foreground line-clamp-3 leading-relaxed">
-                {post.summary}
-              </p>
+              <p className="text-sm text-muted-foreground line-clamp-3 leading-relaxed" dangerouslySetInnerHTML={{ __html: post.summary }} />
             )}
             
             {post.tags.length > 0 && (

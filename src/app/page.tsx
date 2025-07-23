@@ -116,7 +116,7 @@ export default async function HomePage() {
               <div className="hidden lg:block">
                 <p className="text-sm text-muted-foreground mb-3">热门话题</p>
                 <div className="flex flex-wrap gap-2 max-w-xs">
-                  {tags.slice(0, 6).map((tag) => (
+                  {tags.map((tag) => (
                     <Link key={tag.id} href={`/posts?tag=${tag.slug}`}>
                       <Badge 
                         variant="outline" 
