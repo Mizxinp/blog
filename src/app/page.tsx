@@ -104,7 +104,7 @@ export default async function HomePage() {
       {/* 创作指数模块 */}
       <section className="py-16 border-b">
         <div className="max-w-6xl mx-auto">
-          <ContributionHeatmap />
+          <ContributionHeatmap showSummary={false}/>
         </div>
       </section>
 
