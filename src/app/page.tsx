@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { PostCard } from '@/components/post-card'
+import { ContributionHeatmap } from '@/components/contribution-heatmap'
 import { prisma } from '@/lib/prisma'
 
 // 直接调用数据库获取数据
@@ -97,6 +98,13 @@ export default async function HomePage() {
               <Link href="#recent-posts">最新内容</Link>
             </Button>
           </div>
+        </div>
+      </section>
+
+      {/* 创作指数模块 */}
+      <section className="py-16 border-b">
+        <div className="max-w-6xl mx-auto">
+          <ContributionHeatmap />
         </div>
       </section>
 
