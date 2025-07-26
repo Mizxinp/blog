@@ -139,7 +139,7 @@ export default function PostsManagePage() {
                   <div className="space-y-2">
                     <CardTitle className="line-clamp-1">{post.title}</CardTitle>
                     <CardDescription>
-                      {post.summary || '暂无摘要'}
+                      <div dangerouslySetInnerHTML={{ __html: post.summary || '暂无摘要' }}/>
                     </CardDescription>
                     <div className="flex items-center gap-4 text-sm text-muted-foreground">
                       {getStatusBadge(post.status)}

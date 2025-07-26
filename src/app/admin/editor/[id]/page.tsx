@@ -14,6 +14,8 @@ import { Separator } from '@/components/ui/separator'
 import { TagSelector } from '@/components/tag-selector'
 import { ArrowLeft, Save, Send, Eye } from 'lucide-react'
 import { toast } from 'sonner'
+import { SimpleEditor } from '@/components/tiptap-templates/simple/simple-editor'
+
 import Link from 'next/link'
 
 interface Post {
@@ -207,7 +209,7 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Button variant="ghost" size="sm" asChild>
-              <Link href="/admin">
+              <Link href="/admin/posts">
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 返回管理
               </Link>
@@ -315,10 +317,10 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
               {/* 内容编辑器 */}
               <div className="space-y-2 flex-1">
                 <Label htmlFor="content" className="text-sm font-medium">内容</Label>
-                <TiptapEditorWrapper
+                <SimpleEditor
                   content={content}
                   onChange={setContent}
-                  placeholder="开始写作... 支持富文本编辑"
+                  placeholder="开始写作..."
                   className="min-h-[400px]"
                 />
               </div>
