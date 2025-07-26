@@ -198,3 +198,11 @@ Response:
 - 站点相关文档：
   - https://tiptap.dev
   - https://tiptap.dev/docs/editor/getting-started/install/nextjs
+
+## 需求2.1 文章的slug管理
+功能描述：
+- 编辑文章时添加input，可以输入slug保存, 保存和更新发布时都要带上 编辑页面：app/admin/editor/[id]/page.tsx
+
+问题修复：
+- 在新建文章时slug，是：-时间戳，要排查下，还是按默认的 title-时间戳，新建文章按钮：app/admin/posts/page.tsx, createNewPost
+- 文章列表：app/post下的按标签筛选中的标签的文章数都是空的，其实是有值的

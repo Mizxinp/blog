@@ -8,14 +8,27 @@ async function handleGetTags(req: NextRequest) {
   const tags = await prisma.tag.findMany({
     orderBy: { name: 'asc' },
     include: {
-      _count: {
-        select: { posts: true }
+      posts: {
+        where: {
+          post: {
+            status: 'PUBLISHED',
+            deletedAt: null
+          }
+        }
       }
     }
   })
 
+  // 转换数据格式，添加postCount字段
+  const formattedTags = tags.map(tag => ({
+    id: tag.id,
+    name: tag.name,
+    slug: tag.slug,
+    postCount: tag.posts.length
+  }))
+
   return NextResponse.json(
-    createSuccessResponse(tags, '获取标签列表成功')
+    createSuccessResponse(formattedTags, '获取标签列表成功')
   )
 }
 

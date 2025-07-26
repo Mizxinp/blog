@@ -12,7 +12,7 @@ async function handleUpdatePost(
   const postId = parseInt(params.id)
   const body = await req.json()
   
-  const { title, contentMd, summary, tags, coverUrl } = body
+  const { title, slug, contentMd, summary, tags, coverUrl } = body
 
   // 验证文章存在和权限
   const existingPost = await prisma.post.findUnique({
@@ -34,9 +34,36 @@ async function handleUpdatePost(
     )
   }
 
+  // 验证slug格式和唯一性（如果提供了新的slug）
+  if (slug !== undefined) {
+    // 验证slug格式
+    const slugRegex = /^[a-z0-9-]+$/
+    if (!slug.trim() || !slugRegex.test(slug)) {
+      return NextResponse.json(
+        createErrorResponse(ErrorCodes.PARAM_ERROR, '文章链接格式不正确，只能包含小写字母、数字和连字符'),
+        { status: 400 }
+      )
+    }
+
+    // 验证slug唯一性
+    if (slug !== existingPost.slug) {
+      const existingSlugPost = await prisma.post.findUnique({
+        where: { slug }
+      })
+      
+      if (existingSlugPost) {
+        return NextResponse.json(
+          createErrorResponse(ErrorCodes.PARAM_ERROR, '文章链接已存在，请使用其他链接'),
+          { status: 409 }
+        )
+      }
+    }
+  }
+
   // 准备更新数据
   const updateData: {
     title?: string
+    slug?: string
     contentMd?: string
     contentHtml?: string
     summary?: string | null
@@ -44,6 +71,7 @@ async function handleUpdatePost(
   } = {}
   
   if (title !== undefined) updateData.title = title
+  if (slug !== undefined) updateData.slug = slug
   if (contentMd !== undefined) {
     updateData.contentMd = contentMd
     // 重新生成 HTML 缓存

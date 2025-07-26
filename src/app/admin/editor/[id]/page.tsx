@@ -36,6 +36,7 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
   const router = useRouter()
   const [post, setPost] = useState<Post | null>(null)
   const [title, setTitle] = useState('')
+  const [slug, setSlug] = useState('')
   const [content, setContent] = useState('')
   const [summary, setSummary] = useState('')
   const [selectedTags, setSelectedTags] = useState<Array<{id: number, name: string, slug: string}>>([])
@@ -61,14 +62,14 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
     if (!post) return
     
     const timer = setTimeout(() => {
-      if (title !== post.title || content !== post.contentMd || summary !== (post.summary || '') || 
+      if (title !== post.title || slug !== post.slug || content !== post.contentMd || summary !== (post.summary || '') || 
           JSON.stringify(selectedTags.map(t => t.id).sort()) !== JSON.stringify((post.tags || []).map(t => t.id).sort())) {
         handleSave(false)
       }
     }, 2000)
 
     return () => clearTimeout(timer)
-  }, [title, content, summary, selectedTags, post])
+  }, [title, slug, content, summary, selectedTags, post])
 
   async function fetchPost() {
     try {
@@ -79,6 +80,7 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
         const postData = data.result
         setPost(postData)
         setTitle(postData.title)
+        setSlug(postData.slug)
         setContent(postData.contentMd)
         setSummary(postData.summary || '')
         setSelectedTags(postData.tags || [])
@@ -105,6 +107,7 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
         },
         body: JSON.stringify({
           title,
+          slug,
           contentMd: content,
           summary: summary || null,
           tags: selectedTags.map(tag => tag.id)
@@ -118,7 +121,7 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
           toast.success('保存成功')
         }
         // 更新本地状态
-        setPost(prev => prev ? { ...prev, title, contentMd: content, summary, tags: selectedTags } : null)
+        setPost(prev => prev ? { ...prev, title, slug, contentMd: content, summary, tags: selectedTags } : null)
       } else {
         toast.error(data.message || '保存失败')
       }
@@ -134,6 +137,11 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
     
     if (!title.trim()) {
       toast.error('请输入文章标题')
+      return
+    }
+
+    if (!slug.trim()) {
+      toast.error('请输入文章链接')
       return
     }
     
@@ -260,6 +268,28 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
                   className="text-2xl md:text-3xl font-bold border-none p-0 h-auto focus-visible:ring-0 text-foreground placeholder:text-muted-foreground"
                   style={{ fontSize: '1.875rem', lineHeight: '2.25rem' }}
                 />
+              </div>
+
+              {/* Slug */}
+              <div className="space-y-2">
+                <Label htmlFor="slug" className="text-sm font-medium">文章链接 (slug)</Label>
+                <Input
+                  id="slug"
+                  value={slug}
+                  onChange={(e) => {
+                    // 只允许字母、数字、连字符，自动转小写
+                    const cleanSlug = e.target.value
+                      .toLowerCase()
+                      .replace(/[^a-z0-9-]/g, '')
+                      .replace(/-+/g, '-')
+                    setSlug(cleanSlug)
+                  }}
+                  placeholder="article-slug-example"
+                  className="font-mono text-sm"
+                />
+                <p className="text-xs text-muted-foreground">
+                  文章的URL路径，只能包含字母、数字和连字符，将显示为: /posts/{slug || 'your-slug'}
+                </p>
               </div>
 
               <Separator />

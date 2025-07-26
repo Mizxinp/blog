@@ -91,8 +91,6 @@ async function handleGetPosts(req: NextRequest) {
     prisma.post.count({ where })
   ])
   
-  console.log('查询结果:', { postsCount: posts.length, total })
-
   const items = posts.map(post => ({
     id: post.id,
     slug: post.slug,
@@ -126,9 +124,12 @@ async function handleGetPosts(req: NextRequest) {
 async function handleCreatePost(req: AuthenticatedRequest) {
   const body = await req.json()
   const { title = '未命名文章' } = body
+  console.log('创建文章:', body)
 
   const user = req.user!
-  const slug = createSlug(title) + '-' + Date.now() // 确保唯一性
+  const baseSlug = title.trim() ? createSlug(title) : 'untitled'
+  const slug = baseSlug + '-' + Date.now() // 确保唯一性
+  console.log('slug:', slug)
 
   const post = await prisma.post.create({
     data: {
