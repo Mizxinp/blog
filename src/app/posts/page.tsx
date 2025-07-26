@@ -110,10 +110,7 @@ function PostsPageContent() {
       {/* 页面标题和搜索区域 */}
       <div className="mb-12">
         <div className="text-center mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold mb-4">技术文章</h1>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            分享前端开发、技术思考和实践经验
-          </p>
+          <h1 className="text-3xl md:text-4xl font-bold mb-4">全部文章</h1>
         </div>
         
         {/* 搜索框 */}

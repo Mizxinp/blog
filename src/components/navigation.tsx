@@ -70,7 +70,7 @@ export function Navigation() {
           {/* Logo */}
           <div className="flex items-center">
             <Link href="/" className="flex items-center space-x-2">
-              <span className="text-xl font-bold">技术博客</span>
+              <span className="text-xl font-bold">墨舟的博客</span>
             </Link>
           </div>
           

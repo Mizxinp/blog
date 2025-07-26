@@ -47,9 +47,12 @@ async function getTags() {
   try {
     const tags = await prisma.tag.findMany({
       include: {
-        _count: {
-          select: {
-            posts: true
+        posts: {
+          where: {
+            post: {
+              status: 'PUBLISHED',
+              deletedAt: null
+            }
           }
         }
       },
@@ -62,7 +65,7 @@ async function getTags() {
       id: tag.id,
       name: tag.name,
       slug: tag.slug,
-      postCount: tag._count.posts
+      postCount: tag.posts.length
     }))
   } catch (error) {
     console.error('获取标签失败:', error)
@@ -81,23 +84,22 @@ export default async function HomePage() {
       {/* Hero 区域 */}
       <section className="text-center py-20">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight">
-            <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-              技术博客
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-2 leading-tight">
+            <span className="bg-gradient-to-r text-primary bg-clip-text ">
+              欢迎来到墨舟的博客
             </span>
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-3xl mx-auto leading-relaxed">
-            分享前端开发、全栈技术和编程实践经验，<br className="hidden sm:block" />
-            探索技术的无限可能，记录成长的每一步
+            AI改变世界
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          {/* <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Button asChild size="lg" className="text-base px-8">
               <Link href="/posts">探索文章</Link>
             </Button>
             <Button variant="outline" asChild size="lg" className="text-base px-8">
               <Link href="#recent-posts">最新内容</Link>
             </Button>
-          </div>
+          </div> */}
         </div>
       </section>
 
@@ -114,9 +116,6 @@ export default async function HomePage() {
           <div className="flex items-center justify-between mb-12">
             <div>
               <h2 className="text-3xl md:text-4xl font-bold mb-4">最新文章</h2>
-              <p className="text-muted-foreground text-lg">
-                最近发布的技术文章和学习心得
-              </p>
             </div>
             
             {/* 热门标签 - 放在文章区域右上角 */}
@@ -196,6 +195,6 @@ export default async function HomePage() {
 
 // 添加一些样式
 export const metadata = {
-  title: '技术博客 - 分享技术心得与实践经验',
-  description: '分享前端开发、全栈技术和编程实践经验，探索技术的无限可能'
+  title: '墨舟的博客',
+  description: 'AI改变世界'
 }
