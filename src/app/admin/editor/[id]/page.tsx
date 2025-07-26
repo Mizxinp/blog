@@ -162,7 +162,7 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ publishAt: null }),
+        body: JSON.stringify({ publishAt: post.publishAt }),
       })
 
       const data = await response.json()
