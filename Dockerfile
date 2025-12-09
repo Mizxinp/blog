@@ -33,7 +33,6 @@ RUN addgroup --system --gid 1001 nodejs && \
 COPY --chown=nextjs:nodejs .next/standalone/package.json ./
 COPY --chown=nextjs:nodejs .next/standalone/server.js ./
 COPY --chown=nextjs:nodejs .next/standalone/.next ./.next
-COPY --chown=nextjs:nodejs .next/standalone/src ./src
 
 # 复制静态文件
 COPY --chown=nextjs:nodejs .next/static ./.next/static
