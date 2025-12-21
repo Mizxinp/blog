@@ -19,4 +19,19 @@
 - 暂时不用实时预览了，先注释掉
 
 
+## 需求v1.2 添加上传功能
+
+### 添加公共上传能力
+- 前端添加公共上传组件、方法
+- 后端添加公共上传接口
+- 后端oss相关配置
+  - accessKeyId： process.env.OSS_ACCESS_KEY_ID
+  - accessKeySecret: process.env.OSS_ACCESS_KEY_SECRET
+  - bucket: process.env.OSS_BUCKET
+  - 简单put上传即可
+
+### 业务集成
+- 在编辑文章页，添加上传图片的功能：app/admin/editor/[id]/page.tsx
+- 前端支持、后端也要支持
+
 

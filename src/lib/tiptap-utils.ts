@@ -269,17 +269,66 @@ export const handleImageUpload = async (
     )
   }
 
-  // For demo/testing: Simulate upload progress. In production, replace the following code
-  // with your own upload implementation.
-  for (let progress = 0; progress <= 100; progress += 10) {
-    if (abortSignal?.aborted) {
-      throw new Error("Upload cancelled")
-    }
-    await new Promise((resolve) => setTimeout(resolve, 500))
-    onProgress?.({ progress })
-  }
+  // Create FormData
+  const formData = new FormData()
+  formData.append('file', file)
 
-  return "/images/tiptap-ui-placeholder-image.jpg"
+  // Use XMLHttpRequest for progress tracking
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest()
+
+    // Handle abort signal
+    if (abortSignal) {
+      abortSignal.addEventListener('abort', () => {
+        xhr.abort()
+        reject(new Error('Upload cancelled'))
+      })
+    }
+
+    // Track upload progress
+    xhr.upload.addEventListener('progress', (event) => {
+      if (event.lengthComputable) {
+        const progress = Math.round((event.loaded / event.total) * 100)
+        onProgress?.({ progress })
+      }
+    })
+
+    // Handle response
+    xhr.addEventListener('load', () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        try {
+          const response = JSON.parse(xhr.responseText)
+          if (response.code === '0' && response.result?.url) {
+            resolve(response.result.url)
+          } else {
+            reject(new Error(response.message || 'Upload failed'))
+          }
+        } catch {
+          reject(new Error('Invalid response format'))
+        }
+      } else {
+        try {
+          const response = JSON.parse(xhr.responseText)
+          reject(new Error(response.message || `Upload failed with status ${xhr.status}`))
+        } catch {
+          reject(new Error(`Upload failed with status ${xhr.status}`))
+        }
+      }
+    })
+
+    // Handle errors
+    xhr.addEventListener('error', () => {
+      reject(new Error('Network error during upload'))
+    })
+
+    xhr.addEventListener('abort', () => {
+      reject(new Error('Upload cancelled'))
+    })
+
+    // Send request
+    xhr.open('POST', '/api/upload')
+    xhr.send(formData)
+  })
 }
 
 type ProtocolOptions = {

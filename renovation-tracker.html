@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>装修开销记账本</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --bg: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --border: #e5e7eb;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --radius: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Sans SC', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 24px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Dashboard */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .stat-card.full-width {
+            grid-column: span 2;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+        }
+
+        .stat-card.full-width .stat-label {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .stat-card.full-width .stat-value {
+            color: white;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .stat-value.expense {
+            color: var(--danger);
+        }
+
+        .stat-value.remaining {
+            color: var(--secondary);
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            margin-top: 12px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #ffffff;
+            width: 0%;
+            border-radius: 4px;
+            transition: width 0.5s ease-out;
+        }
+
+        .edit-budget-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            margin-left: auto;
+            transition: background 0.2s;
+        }
+
+        .edit-budget-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .stat-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Form */
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-main);
+        }
+
+        .input-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+            font-family: inherit;
+        }
+
+        input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        button.primary-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--text-main);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.1s, opacity 0.2s;
+        }
+
+        button.primary-btn:hover {
+            opacity: 0.9;
+        }
+
+        button.primary-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* List */
+        .list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .list-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .expense-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .expense-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .expense-item:hover {
+            background: white;
+            border-color: var(--primary);
+            box-shadow: 0 4px 6px -2px rgba(99, 102, 241, 0.1);
+        }
+
+        .item-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .item-name {
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .item-date {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .item-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .item-cost {
+            font-weight: 700;
+            color: var(--danger);
+        }
+
+        .delete-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 4px;
+            font-size: 1.2rem;
+            transition: color 0.2s;
+        }
+
+        .delete-btn:hover {
+            color: var(--danger);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 0;
+            color: var(--text-muted);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            z-index: 100;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal {
+            background: white;
+            padding: 32px;
+            border-radius: var(--radius);
+            width: 90%;
+            max-width: 400px;
+            transform: scale(0.9);
+            transition: transform 0.2s;
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1);
+        }
+
+        .modal h2 {
+            margin-bottom: 24px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .modal-actions button {
+            flex: 1;
+            padding: 12px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-cancel {
+            background: #f3f4f6;
+            color: var(--text-main);
+        }
+
+        .btn-confirm {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #333;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 0.9rem;
+            z-index: 200;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>装修账本</h1>
+            <div class="subtitle">记录每一笔开销，掌控预算</div>
+        </header>
+
+        <!-- Dashboard -->
+        <div class="card">
+            <div class="dashboard-grid">
+                <div class="stat-card full-width">
+                    <div class="stat-header">
+                        <div class="stat-label">总预算</div>
+                        <button class="edit-budget-btn" onclick="openBudgetModal()">设置</button>
+                    </div>
+                    <div class="stat-value" id="budgetDisplay">¥0.00</div>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="progressBar"></div>
+                    </div>
+                    <div
+                        style="font-size: 0.75rem; color: rgba(255,255,255,0.7); margin-top: 6px; display: flex; justify-content: space-between; width: 100%;">
+                        <span>已支出: <span id="budgetSpent">0%</span></span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">已花费</div>
+                    <div class="stat-value expense" id="totalSpent">¥0.00</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">剩余</div>
+                    <div class="stat-value remaining" id="remainingBudget">¥0.00</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Item Form -->
+        <div class="card">
+            <div style="margin-bottom: 20px;">
+                <h3 style="font-size: 1.1rem; font-weight: 700;">记一笔</h3>
+            </div>
+            <form id="expenseForm">
+                <div class="input-group">
+                    <label>项目名称</label>
+                    <input type="text" id="itemName" placeholder="例如：客厅地砖" required autocomplete="off">
+                </div>
+                <div class="input-row">
+                    <div class="input-group" style="flex: 1;">
+                        <label>金额 (¥)</label>
+                        <input type="number" id="itemAmount" placeholder="0.00" step="0.01" min="0" required>
+                    </div>
+                    <div class="input-group" style="flex: 1;">
+                        <label>日期</label>
+                        <input type="date" id="itemDate" required>
+                    </div>
+                </div>
+                <button type="submit" class="primary-btn">添加记录</button>
+            </form>
+        </div>
+
+        <!-- List -->
+        <div class="card">
+            <div class="list-header">
+                <div class="list-title">开销明细</div>
+                <div style="font-size: 0.9rem; color: var(--text-muted);"><span id="itemCount">0</span> 笔记录</div>
+            </div>
+            <ul class="expense-list" id="expenseList">
+                <!-- List items will be injected here -->
+            </ul>
+            <div id="emptyState" class="empty-state">
+                暂无开销记录
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Budget -->
+    <div class="modal-overlay" id="budgetModal">
+        <div class="modal">
+            <h2>设置总预算</h2>
+            <div class="input-group">
+                <label>预算金额 (¥)</label>
+                <input type="number" id="newBudgetInput" placeholder="输入总预算" step="100">
+            </div>
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeBudgetModal()">取消</button>
+                <button class="btn-confirm" onclick="saveBudget()">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">已保存</div>
+
+    <script>
+        // State
+        let expenses = JSON.parse(localStorage.getItem('renovation_expenses')) || [];
+        let budget = parseFloat(localStorage.getItem('renovation_budget')) || 0;
+
+        // Elements
+        const els = {
+            budgetDisplay: document.getElementById('budgetDisplay'),
+            totalSpent: document.getElementById('totalSpent'),
+            remainingBudget: document.getElementById('remainingBudget'),
+            progressBar: document.getElementById('progressBar'),
+            budgetSpent: document.getElementById('budgetSpent'),
+            expenseForm: document.getElementById('expenseForm'),
+            expenseList: document.getElementById('expenseList'),
+            emptyState: document.getElementById('emptyState'),
+            itemCount: document.getElementById('itemCount'),
+            itemName: document.getElementById('itemName'),
+            itemAmount: document.getElementById('itemAmount'),
+            itemDate: document.getElementById('itemDate'),
+            budgetModal: document.getElementById('budgetModal'),
+            newBudgetInput: document.getElementById('newBudgetInput'),
+            toast: document.getElementById('toast')
+        };
+
+        // Initialize
+        const today = new Date().toISOString().split('T')[0];
+        els.itemDate.value = today;
+        render();
+
+        // Event Listeners
+        els.expenseForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            addExpense();
+        });
+
+        // Functions
+        function render() {
+            // Calculate totals
+            const total = expenses.reduce((sum, item) => sum + item.amount, 0);
+            const remaining = budget - total;
+            const percentage = budget > 0 ? Math.min((total / budget) * 100, 100) : 0;
+
+            // Update Dashboard
+            els.budgetDisplay.textContent = formatCurrency(budget);
+            els.totalSpent.textContent = formatCurrency(total);
+            els.remainingBudget.textContent = formatCurrency(remaining);
+
+            els.progressBar.style.width = \`\${percentage}%\`;
+        els.budgetSpent.textContent = \`\${percentage.toFixed(1)}%\`;
+
+        // Update List
+        els.expenseList.innerHTML = '';
+        els.itemCount.textContent = expenses.length;
+
+        if (expenses.length === 0) {
+            els.emptyState.style.display = 'block';
+        } else {
+            els.emptyState.style.display = 'none';
+            // Sort by date desc
+            const sortedExpenses = [...expenses].sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            sortedExpenses.forEach(item => {
+                const li = document.createElement('li');
+                li.className = 'expense-item';
+                li.innerHTML = \`
+                    <div class="item-info">
+                        <span class="item-name">\${item.name}</span>
+                        <span class="item-date">\${item.date}</span>
+                    </div>
+                    <div class="item-actions">
+                        <span class="item-cost">-\${formatCurrency(item.amount)}</span>
+                        <button class="delete-btn" onclick="deleteExpense(\${item.id})">×</button>
+                    </div>
+                \`;
+                els.expenseList.appendChild(li);
+            });
+        }
+    }
+
+    function addExpense() {
+        const name = els.itemName.value.trim();
+        const amount = parseFloat(els.itemAmount.value);
+        const date = els.itemDate.value;
+
+        if (!name || isNaN(amount) || amount <= 0) return;
+
+        const newExpense = {
+            id: Date.now(),
+            name,
+            amount,
+            date
+        };
+
+        expenses.push(newExpense);
+        saveData();
+        
+        // Reset form
+        els.itemName.value = '';
+        els.itemAmount.value = '';
+        els.itemName.focus();
+        
+        showToast('已添加一项支出');
+    }
+
+    window.deleteExpense = function(id) {
+        if(confirm('确定要删除这条记录吗？')) {
+            expenses = expenses.filter(item => item.id !== id);
+            saveData();
+            showToast('已删除');
+        }
+    };
+
+    window.openBudgetModal = function() {
+        els.newBudgetInput.value = budget || '';
+        els.budgetModal.classList.add('active');
+        setTimeout(() => els.newBudgetInput.focus(), 100);
+    };
+
+    window.closeBudgetModal = function() {
+        els.budgetModal.classList.remove('active');
+    };
+
+    window.saveBudget = function() {
+        const val = parseFloat(els.newBudgetInput.value);
+        if (!isNaN(val) && val >= 0) {
+            budget = val;
+            localStorage.setItem('renovation_budget', budget); // Save independently directly
+            render();
+            closeBudgetModal();
+            showToast('预算已更新');
+        }
+    };
+
+    function saveData() {
+        localStorage.setItem('renovation_expenses', JSON.stringify(expenses));
+        render();
+    }
+
+    function formatCurrency(num) {
+        return '¥' + num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function showToast(msg) {
+        els.toast.textContent = msg;
+        els.toast.classList.add('show');
+        setTimeout(() => {
+            els.toast.classList.remove('show');
+        }, 3000);
+    }
+    </script>
+</body>
+
+</html>
