@@ -1,5 +1,8 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+
+// 禁用页面缓存，确保每次请求都获取最新数据
+export const dynamic = 'force-dynamic'
 import { Badge } from '@/components/ui/badge'
 import { PostCard } from '@/components/post-card'
 import { ContributionHeatmap } from '@/components/contribution-heatmap'
@@ -25,7 +28,6 @@ async function getRecentPosts() {
       },
       take: 5
     })
-
     const items = posts.map(post => ({
       id: post.id,
       slug: post.slug,
