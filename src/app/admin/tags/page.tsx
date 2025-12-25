@@ -229,7 +229,7 @@ export default function TagsManagePage() {
                     </CardDescription>
                     <div className="flex items-center gap-2">
                       <Badge variant="secondary">
-                        {tag._count.posts} 篇文章
+                        {tag._count?.posts} 篇文章
                       </Badge>
                     </div>
                   </div>
@@ -245,8 +245,8 @@ export default function TagsManagePage() {
                       variant="ghost" 
                       size="sm" 
                       onClick={() => deleteTag(tag)}
-                      disabled={tag._count.posts > 0}
-                      className={tag._count.posts > 0 ? 'opacity-50 cursor-not-allowed' : 'text-red-600 hover:text-red-700 hover:bg-red-50'}
+                      disabled={tag?._count?.posts > 0}
+                      className={tag?._count?.posts > 0 ? 'opacity-50 cursor-not-allowed' : 'text-red-600 hover:text-red-700 hover:bg-red-50'}
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
