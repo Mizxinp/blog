@@ -62,7 +62,7 @@ async function getTags() {
         name: 'asc'
       }
     })
-    
+
     return tags.map(tag => ({
       id: tag.id,
       name: tag.name,
@@ -86,29 +86,28 @@ export default async function HomePage() {
       {/* Hero 区域 */}
       <section className="text-center py-20">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-2 leading-tight">
-            <span className="bg-gradient-to-r text-primary bg-clip-text ">
-              欢迎来到墨舟的博客
-            </span>
-          </h1>
-          <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-3xl mx-auto leading-relaxed">
-            AI改变世界
+          {/* 装饰性引言 */}
+          <p className="text-sm text-muted-foreground tracking-widest mb-6">
+            — 笔墨之间，皆是生活 —
           </p>
-          {/* <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button asChild size="lg" className="text-base px-8">
-              <Link href="/posts">探索文章</Link>
-            </Button>
-            <Button variant="outline" asChild size="lg" className="text-base px-8">
-              <Link href="#recent-posts">最新内容</Link>
-            </Button>
-          </div> */}
+
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold mb-6 leading-tight tracking-wide text-foreground">
+            墨舟的博客
+          </h1>
+
+          <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
+            记录技术探索的点滴，分享对编程与生活的思考
+          </p>
+
+          {/* 装饰分隔线 */}
+          {/* <div className="w-12 h-0.5 bg-primary mx-auto" /> */}
         </div>
       </section>
 
       {/* 创作指数模块 */}
-      <section className="py-16 border-b">
+      <section className="py-12 border-b border-border">
         <div className="max-w-6xl mx-auto">
-          <ContributionHeatmap showSummary={false}/>
+          <ContributionHeatmap showSummary={false} />
         </div>
       </section>
 
@@ -117,9 +116,9 @@ export default async function HomePage() {
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center justify-between mb-12">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">最新文章</h2>
+              <h2 className="text-2xl md:text-3xl font-medium tracking-wide mb-2 text-foreground">近 期 文 章</h2>
             </div>
-            
+
             {/* 热门标签 - 放在文章区域右上角 */}
             {tags.length > 0 && (
               <div className="hidden lg:block">
@@ -127,9 +126,9 @@ export default async function HomePage() {
                 <div className="flex flex-wrap gap-2 max-w-xs">
                   {tags.map((tag) => (
                     <Link key={tag.id} href={`/posts?tag=${tag.slug}`}>
-                      <Badge 
-                        variant="outline" 
-                        className="text-xs py-1 px-2 hover:bg-muted transition-colors"
+                      <Badge
+                        variant="outline"
+                        className="text-xs py-1 px-3 hover:bg-accent-soft hover:text-primary hover:border-primary transition-colors border-border"
                       >
                         {tag.name}
                       </Badge>
@@ -139,7 +138,7 @@ export default async function HomePage() {
               </div>
             )}
           </div>
-          
+
           {postsData.items.length > 0 ? (
             <>
               <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -148,33 +147,33 @@ export default async function HomePage() {
                 ))}
               </div>
               <div className="text-center mt-12">
-                <Button variant="outline" asChild size="lg">
-                  <Link href="/posts">查看全部文章</Link>
+                <Button variant="outline" asChild size="lg" className="border-border hover:border-primary hover:text-primary">
+                  <Link href="/posts">查看全部文章 →</Link>
                 </Button>
               </div>
             </>
           ) : (
-            <div className="text-center py-20">
+            <div className="text-center py-20 bg-card border border-border rounded">
               <div className="max-w-md mx-auto">
-                <h3 className="text-lg font-medium mb-2">即将发布</h3>
+                <h3 className="text-lg font-medium mb-2 text-foreground">即将发布</h3>
                 <p className="text-muted-foreground mb-6">
                   正在准备精彩的技术内容，敬请期待
                 </p>
               </div>
             </div>
           )}
-          
+
           {/* 移动端标签 - 放在文章列表下方但样式更低调 */}
           {tags.length > 0 && (
-            <div className="lg:hidden mt-12 pt-8 border-t">
+            <div className="lg:hidden mt-12 pt-8 border-t border-border">
               <div className="text-center">
                 <p className="text-sm text-muted-foreground mb-4">浏览更多话题</p>
                 <div className="flex flex-wrap justify-center gap-2">
                   {tags.slice(0, 8).map((tag) => (
                     <Link key={tag.id} href={`/posts?tag=${tag.slug}`}>
-                      <Badge 
-                        variant="outline" 
-                        className="text-xs py-1 px-2 hover:bg-muted transition-colors"
+                      <Badge
+                        variant="outline"
+                        className="text-xs py-1 px-3 hover:bg-accent-soft hover:text-primary hover:border-primary transition-colors border-border"
                       >
                         {tag.name}
                       </Badge>
@@ -198,5 +197,5 @@ export default async function HomePage() {
 // 添加一些样式
 export const metadata = {
   title: '墨舟的博客',
-  description: 'AI改变世界'
+  description: '记录技术探索的点滴，分享对编程与生活的思考'
 }

@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import '../styles/_variables.scss';                                       
-@import '../styles/_keyframe-animations.scss';  
+@import '../styles/_variables.scss';
+@import '../styles/_keyframe-animations.scss';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -10,6 +10,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-noto-serif);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -29,6 +30,7 @@
   --color-destructive: var(--destructive);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
   --color-muted-foreground: var(--muted-foreground);
   --color-muted: var(--muted);
   --color-secondary-foreground: var(--secondary-foreground);
@@ -45,73 +47,153 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
+/* ==========================================
+   温暖文艺风 - 日常模式 (Warm Literary)
+   ========================================== */
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --radius: 0.25rem;
+
+  /* 背景色 */
+  --background: #FDF8F3;
+  --foreground: #2D2A26;
+
+  /* 卡片 */
+  --card: #FFFFFF;
+  --card-foreground: #2D2A26;
+
+  /* 弹窗 */
+  --popover: #FFFFFF;
+  --popover-foreground: #2D2A26;
+
+  /* 主色 - 金色 */
+  --primary: #B8860B;
+  --primary-foreground: #FFFFFF;
+
+  /* 次要 */
+  --secondary: #F5EDE4;
+  --secondary-foreground: #2D2A26;
+
+  /* 静音/次级 */
+  --muted: #F5EDE4;
+  --muted-foreground: #9A958D;
+
+  /* 强调色 */
+  --accent: #B8860B;
+  --accent-foreground: #FFFFFF;
+  --accent-soft: #F5E6C8;
+  --accent-light: #D4A853;
+
+  /* 破坏性 */
+  --destructive: #DC2626;
+
+  /* 边框与输入 */
+  --border: #E5DDD3;
+  --input: #E5DDD3;
+  --ring: #B8860B;
+
+  /* 热力图颜色 - 层级差异更明显 */
+  --heatmap-level-0: #EDEAE6;
+  --heatmap-level-1: #E2C992;
+  --heatmap-level-2: #D4A853;
+  --heatmap-level-3: #C4922E;
+  --heatmap-level-4: #B8860B;
+
+  /* 图表颜色 */
+  --chart-1: #B8860B;
+  --chart-2: #D4A853;
+  --chart-3: #8B7355;
+  --chart-4: #A0522D;
+  --chart-5: #CD853F;
+
+  /* 侧边栏 */
+  --sidebar: #FFFFFF;
+  --sidebar-foreground: #2D2A26;
+  --sidebar-primary: #B8860B;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #F5EDE4;
+  --sidebar-accent-foreground: #2D2A26;
+  --sidebar-border: #E5DDD3;
+  --sidebar-ring: #B8860B;
+
+  /* 阴影 */
+  --shadow: rgba(45, 42, 38, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(45, 42, 38, 0.1), 0 2px 4px -2px rgba(45, 42, 38, 0.1);
+  --shadow-lg: 0 12px 40px rgba(45, 42, 38, 0.06);
 }
 
+/* ==========================================
+   Neo Dark 科技风 - 暗黑模式 (Dark Tech)
+   ========================================== */
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --radius: 0;
+
+  /* 背景色 */
+  --background: #0A0A0C;
+  --foreground: #E0E0E0;
+
+  /* 卡片 */
+  --card: #141416;
+  --card-foreground: #E0E0E0;
+
+  /* 弹窗 */
+  --popover: #141416;
+  --popover-foreground: #E0E0E0;
+
+  /* 主色 - 霓虹绿 */
+  --primary: #00FF9D;
+  --primary-foreground: #0A0A0C;
+
+  /* 次要 */
+  --secondary: #1A1A1E;
+  --secondary-foreground: #E0E0E0;
+
+  /* 静音/次级 */
+  --muted: #1A1A1E;
+  --muted-foreground: #888888;
+
+  /* 强调色 */
+  --accent: #00FF9D;
+  --accent-foreground: #0A0A0C;
+  --accent-soft: rgba(0, 255, 157, 0.15);
+  --accent-light: #33FFB1;
+  --accent-glow: rgba(0, 255, 157, 0.2);
+
+  /* 破坏性 */
+  --destructive: #FF4444;
+
+  /* 边框与输入 */
+  --border: #333333;
+  --input: #333333;
+  --ring: #00FF9D;
+
+  /* 热力图颜色 - 层级差异更明显 */
+  --heatmap-level-0: #161618;
+  --heatmap-level-1: #0D4D35;
+  --heatmap-level-2: #0A7A4D;
+  --heatmap-level-3: #00B36B;
+  --heatmap-level-4: #00FF9D;
+
+  /* 图表颜色 */
+  --chart-1: #00FF9D;
+  --chart-2: #33FFB1;
+  --chart-3: #00CC7D;
+  --chart-4: #00995E;
+  --chart-5: #66FFBE;
+
+  /* 侧边栏 */
+  --sidebar: #141416;
+  --sidebar-foreground: #E0E0E0;
+  --sidebar-primary: #00FF9D;
+  --sidebar-primary-foreground: #0A0A0C;
+  --sidebar-accent: #1A1A1E;
+  --sidebar-accent-foreground: #E0E0E0;
+  --sidebar-border: #333333;
+  --sidebar-ring: #00FF9D;
+
+  /* 阴影 */
+  --shadow: rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
 }
 
 @layer base {
@@ -120,13 +202,36 @@
   }
   body {
     @apply bg-background text-foreground;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 }
 
-/* Prose 样式优化 */
+/* ==========================================
+   全局排版样式
+   ========================================== */
+
+/* 日常模式 - 衬线字体 */
+:root {
+  --font-body: var(--font-noto-serif), Georgia, 'Times New Roman', serif;
+  --font-heading: var(--font-noto-serif), Georgia, serif;
+  --font-code: 'Menlo', 'JetBrains Mono', monospace;
+}
+
+/* 暗黑模式 - 等宽+无衬线字体 */
+.dark {
+  --font-body: var(--font-geist-sans), 'Inter', -apple-system, sans-serif;
+  --font-heading: 'JetBrains Mono', var(--font-geist-mono), monospace;
+  --font-code: 'JetBrains Mono', var(--font-geist-mono), monospace;
+}
+
+/* ==========================================
+   Prose 文章内容样式
+   ========================================== */
 .prose {
   @apply text-foreground;
   max-width: none;
+  font-family: var(--font-body);
+  line-height: 1.9;
 }
 
 .prose h1,
@@ -136,18 +241,29 @@
 .prose h5,
 .prose h6 {
   @apply text-foreground;
+  font-family: var(--font-heading);
+  letter-spacing: 0.02em;
 }
 
 .prose a {
   @apply text-primary hover:text-primary/80 no-underline;
+  transition: color 0.3s;
 }
 
 .prose code {
   @apply bg-muted px-1.5 py-0.5 rounded text-sm;
+  font-family: var(--font-code);
 }
 
 .prose pre {
   @apply bg-muted border rounded-lg;
+  font-family: var(--font-code);
+}
+
+/* 暗黑模式代码块特殊样式 */
+.dark .prose pre {
+  @apply bg-card border-border;
+  box-shadow: inset 0 0 0 1px var(--border);
 }
 
 .prose pre code {
@@ -156,12 +272,146 @@
 
 .prose blockquote {
   @apply border-l-primary/50 bg-muted/50 p-4 italic;
+  border-left-width: 3px;
 }
 
 .prose img {
   @apply rounded-lg shadow-lg;
 }
 
+/* ==========================================
+   暗黑模式特殊效果
+   ========================================== */
+
+/* 霓虹发光效果 */
+.dark .glow {
+  text-shadow: 0 0 8px var(--accent-glow);
+}
+
+.dark .glow-box {
+  box-shadow: 0 0 15px var(--accent-glow);
+}
+
+/* 卡片悬停发光 */
+.dark .card-glow:hover {
+  box-shadow: 0 0 20px var(--accent-glow), 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+}
+
+/* ==========================================
+   暗黑模式 Neo Dark 卡片样式
+   复刻自 variant-b.html
+   ========================================== */
+.dark .neo-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.dark .neo-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+}
+
+/* 顶部装饰线 - 从左向右展开 */
+.dark .neo-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+  z-index: 10;
+}
+
+.dark .neo-card:hover::before {
+  transform: scaleX(1);
+}
+
+/* 卡片内标签在卡片 hover 时变色 */
+.dark .neo-card:hover .neo-tag {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* 闪烁光标动画 */
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.dark .cursor-blink {
+  display: inline-block;
+  width: 10px;
+  height: 1.5rem;
+  background-color: var(--accent);
+  animation: blink 1s infinite;
+  vertical-align: middle;
+}
+
+/* ==========================================
+   日常模式特殊效果
+   ========================================== */
+
+/* 首字下沉 */
+.drop-cap::first-letter {
+  font-size: 3rem;
+  float: left;
+  line-height: 1;
+  margin-right: 0.5rem;
+  margin-top: 0.25rem;
+  color: var(--accent);
+  font-family: var(--font-heading);
+}
+
+/* 装饰性分隔线 */
+.ornament-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  color: var(--muted-foreground);
+}
+
+.ornament-divider::before,
+.ornament-divider::after {
+  content: '';
+  width: 60px;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ==========================================
+   渐变文字
+   ========================================== */
 .gradient-text {
   @apply bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent;
+}
+
+.dark .gradient-text {
+  background: linear-gradient(135deg, var(--accent), var(--accent-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ==========================================
+   主题过渡动画
+   ========================================== */
+* {
+  transition-property: background-color, border-color, color, fill, stroke, box-shadow;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+}
+
+/* 禁用某些元素的过渡（避免闪烁） */
+img, video, iframe {
+  transition: none;
 }

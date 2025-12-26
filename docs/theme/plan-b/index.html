@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>博客主题风格方案选择</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%);
+      min-height: 100vh;
+      padding: 60px 24px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      color: white;
+      margin-bottom: 60px;
+    }
+
+    .header h1 {
+      font-size: 42px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      letter-spacing: -1px;
+    }
+
+    .header p {
+      font-size: 18px;
+      opacity: 0.9;
+    }
+
+    .themes-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .theme-card {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .theme-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.3);
+    }
+
+    .theme-preview {
+      height: 220px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .theme-preview iframe {
+      width: 200%;
+      height: 200%;
+      border: none;
+      transform: scale(0.5);
+      transform-origin: top left;
+      pointer-events: none;
+    }
+
+    .theme-info {
+      padding: 28px;
+    }
+
+    .theme-number {
+      font-size: 12px;
+      font-weight: 600;
+      color: #667EEA;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+
+    .theme-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #1A1A1A;
+      margin-bottom: 12px;
+    }
+
+    .theme-desc {
+      font-size: 14px;
+      color: #666;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .theme-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .theme-tag {
+      font-size: 12px;
+      padding: 4px 12px;
+      background: #F3F4F6;
+      color: #4B5563;
+      border-radius: 100px;
+    }
+
+    .theme-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+
+    .theme-link:hover {
+      transform: translateX(4px);
+      box-shadow: 0 10px 20px -5px rgba(102, 126, 234, 0.4);
+    }
+
+    .comparison-section {
+      margin-top: 60px;
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+
+    .comparison-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+      padding: 16px;
+      text-align: left;
+      border-bottom: 1px solid #E5E7EB;
+    }
+
+    .comparison-table th {
+      font-size: 13px;
+      font-weight: 600;
+      color: #6B7280;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .comparison-table td {
+      font-size: 14px;
+      color: #374151;
+    }
+
+    .comparison-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .style-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .style-badge.nordic { background: #E5E7EB; color: #374151; }
+    .style-badge.dark { background: #1F2937; color: #F9FAFB; }
+    .style-badge.warm { background: #FEF3C7; color: #92400E; }
+    .style-badge.gradient { background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%); color: white; }
+
+    .footer {
+      text-align: center;
+      color: white;
+      margin-top: 60px;
+      padding: 20px;
+      opacity: 0.8;
+      font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+      .themes-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>博客主题风格方案</h1>
+      <p>为你设计了 4 种不同风格的主题方案，点击查看完整预览</p>
+    </header>
+
+    <div class="themes-grid">
+      <div class="theme-card">
+        <div class="theme-preview">
+          <iframe src="01-nordic-minimal.html"></iframe>
+        </div>
+        <div class="theme-info">
+          <p class="theme-number">方案一</p>
+          <h3 class="theme-title">极简北欧风</h3>
+          <p class="theme-desc">大量留白、柔和灰调、干净的排版。采用 Inter 无衬线字体，中性灰配合蓝色强调色。适合追求简洁专业感的技术博客。</p>
+          <div class="theme-tags">
+            <span class="theme-tag">极简</span>
+            <span class="theme-tag">留白</span>
+            <span class="theme-tag">专业</span>
+            <span class="theme-tag">中性色</span>
+          </div>
+          <a href="01-nordic-minimal.html" class="theme-link" target="_blank">查看完整预览 &rarr;</a>
+        </div>
+      </div>
+
+      <div class="theme-card">
+        <div class="theme-preview">
+          <iframe src="02-dark-tech.html"></iframe>
+        </div>
+        <div class="theme-info">
+          <p class="theme-number">方案二</p>
+          <h3 class="theme-title">暗黑科技风</h3>
+          <p class="theme-desc">深色背景、霓虹渐变、发光效果。使用 Space Grotesk 和 JetBrains Mono 字体，青色紫色渐变。适合开发者博客和技术社区。</p>
+          <div class="theme-tags">
+            <span class="theme-tag">暗色</span>
+            <span class="theme-tag">科技感</span>
+            <span class="theme-tag">霓虹</span>
+            <span class="theme-tag">代码风</span>
+          </div>
+          <a href="02-dark-tech.html" class="theme-link" target="_blank">查看完整预览 &rarr;</a>
+        </div>
+      </div>
+
+      <div class="theme-card">
+        <div class="theme-preview">
+          <iframe src="03-warm-literary.html"></iframe>
+        </div>
+        <div class="theme-info">
+          <p class="theme-number">方案三</p>
+          <h3 class="theme-title">温暖文艺风</h3>
+          <p class="theme-desc">暖色调、衬线字体、书卷气息。采用 Noto Serif SC 和霞鹜文楷字体，米色系配合金色强调。适合个人随笔和文学博客。</p>
+          <div class="theme-tags">
+            <span class="theme-tag">文艺</span>
+            <span class="theme-tag">温暖</span>
+            <span class="theme-tag">衬线</span>
+            <span class="theme-tag">典雅</span>
+          </div>
+          <a href="03-warm-literary.html" class="theme-link" target="_blank">查看完整预览 &rarr;</a>
+        </div>
+      </div>
+
+      <div class="theme-card">
+        <div class="theme-preview">
+          <iframe src="04-modern-gradient.html"></iframe>
+        </div>
+        <div class="theme-info">
+          <p class="theme-number">方案四</p>
+          <h3 class="theme-title">现代渐变风</h3>
+          <p class="theme-desc">鲜艳渐变、彩色阴影、活泼动感。使用 Plus Jakarta Sans 字体，紫粉蓝绿多彩渐变。适合产品博客和创意内容展示。</p>
+          <div class="theme-tags">
+            <span class="theme-tag">渐变</span>
+            <span class="theme-tag">活泼</span>
+            <span class="theme-tag">现代</span>
+            <span class="theme-tag">彩色</span>
+          </div>
+          <a href="04-modern-gradient.html" class="theme-link" target="_blank">查看完整预览 &rarr;</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="comparison-section">
+      <h2 class="comparison-title">风格对比一览</h2>
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>风格</th>
+            <th>背景</th>
+            <th>字体</th>
+            <th>主色调</th>
+            <th>适用场景</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="style-badge nordic">极简北欧</span></td>
+            <td>浅色 #FAFAFA</td>
+            <td>Inter (无衬线)</td>
+            <td>中性灰 + 蓝色</td>
+            <td>技术博客、作品集</td>
+          </tr>
+          <tr>
+            <td><span class="style-badge dark">暗黑科技</span></td>
+            <td>深色 #0A0A0F</td>
+            <td>Space Grotesk + JetBrains Mono</td>
+            <td>青色 + 紫色渐变</td>
+            <td>开发者博客、技术社区</td>
+          </tr>
+          <tr>
+            <td><span class="style-badge warm">温暖文艺</span></td>
+            <td>米色 #FDF8F3</td>
+            <td>Noto Serif SC (衬线)</td>
+            <td>米色系 + 金色</td>
+            <td>个人随笔、文学博客</td>
+          </tr>
+          <tr>
+            <td><span class="style-badge gradient">现代渐变</span></td>
+            <td>白色 #FFFFFF</td>
+            <td>Plus Jakarta Sans</td>
+            <td>紫粉蓝绿多彩渐变</td>
+            <td>产品博客、创意内容</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="footer">
+      <p>选择你喜欢的风格，我将帮你实现到博客项目中</p>
+    </footer>
+  </div>
+</body>
+</html>

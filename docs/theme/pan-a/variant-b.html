@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Theme Variant B - Neo Dark</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg-body: #0a0a0c;
+      --bg-card: #141416;
+      --text-main: #e0e0e0;
+      --text-dim: #888888;
+      --accent: #00ff9d;
+      --accent-glow: rgba(0, 255, 157, 0.2);
+      --border: #333333;
+    }
+
+    body {
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    h1,
+    h2,
+    h3,
+    nav {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Navbar */
+    nav {
+      padding: 1.5rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--accent);
+    }
+
+    .brand::before {
+      content: '> ';
+    }
+
+    .nav-links a {
+      margin-left: 1.5rem;
+      color: var(--text-dim);
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      text-shadow: 0 0 8px var(--accent-glow);
+    }
+
+    /* Hero */
+    .hero {
+      padding: 5rem 0;
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero .subtitle {
+      color: var(--text-dim);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1rem;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      height: 1.5rem;
+      background-color: var(--accent);
+      animation: blink 1s infinite;
+      vertical-align: middle;
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    /* Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      padding: 4rem 0;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      border-color: var(--accent);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .card h2 {
+      font-size: 1.4rem;
+      margin: 0.5rem 0;
+    }
+
+    .card p {
+      color: var(--text-dim);
+      font-size: 0.95rem;
+    }
+
+    .tags {
+      margin-top: 1rem;
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .tag {
+      font-size: 0.75rem;
+      border: 1px solid var(--border);
+      padding: 2px 8px;
+      border-radius: 4px;
+      color: var(--text-dim);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .card:hover .tag {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    footer {
+      text-align: center;
+      padding: 3rem 0;
+      border-top: 1px solid var(--border);
+      color: var(--text-dim);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <nav>
+      <a href="#" class="brand">./mozhou_blog</a>
+      <div class="nav-links">
+        <a href="#">~/home</a>
+        <a href="#">~/posts</a>
+        <a href="#">~/about</a>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <p class="subtitle">system_status: online</p>
+      <h1>AI_Changes_World<span class="cursor"></span></h1>
+      <p style="color: var(--text-dim); max-width: 600px;">
+        记录技术奇点的前夜。探索大模型、生成式AI与人类创造力的边界。
+      </p>
+    </header>
+
+    <div class="grid">
+      <article class="card">
+        <span class="date">2023-12-26</span>
+        <h2>探索大语言模型的未来</h2>
+        <p>人工智能正在以前所未有的速度进化，本文探讨了未来的可能性与挑战，以及对开发者意味着什么。</p>
+        <div class="tags">
+          <span class="tag">AI</span>
+          <span class="tag">LLM</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <span class="date">2023-12-20</span>
+        <h2>Next.js 14 的新特性解析</h2>
+        <p>深入了解 Next.js 14 带来的 Server Actions 和 partial prerendering，为你的应用提速。</p>
+        <div class="tags">
+          <span class="tag">React</span>
+          <span class="tag">NextJS</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <span class="date">2023-12-15</span>
+        <h2>设计师会被AI取代吗？</h2>
+        <p>与其焦虑，不如思考如何利用 AI 来增强我们的创造力。人类的核心竞争力在于审美与决策。</p>
+        <div class="tags">
+          <span class="tag">Design</span>
+          <span class="tag">Opinion</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <span class="date">2023-12-10</span>
+        <h2>构建个人知识库</h2>
+        <p>在这个信息过载的时代，如何建立属于自己的第二大脑？Obsidian与Notion的深度对比。</p>
+        <div class="tags">
+          <span class="tag">Thinking</span>
+          <span class="tag">Tools</span>
+        </div>
+      </article>
+    </div>
+
+    <footer>
+      <p>Run time: 0.024s | Memory: 24MB</p>
+      <p>&copy; 2023 Mozhou. EOF.</p>
+    </footer>
+  </div>
+
+</body>
+
+</html>

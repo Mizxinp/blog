@@ -108,10 +108,11 @@ export default function PostsManagePage() {
     <div className="container py-8">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-3xl font-bold">文章管理</h1>
-          <p className="text-muted-foreground">管理您的博客文章</p>
+          <p className="text-xs text-muted-foreground tracking-widest mb-2">— Posts —</p>
+          <h1 className="text-3xl font-medium tracking-wide text-foreground">文 章 管 理</h1>
+          <p className="text-muted-foreground mt-2">管理您的博客文章</p>
         </div>
-        <Button onClick={createNewPost}>
+        <Button onClick={createNewPost} className="bg-primary text-primary-foreground hover:bg-primary/90">
           <PlusCircle className="mr-2 h-4 w-4" />
           新建文章
         </Button>
@@ -120,7 +121,7 @@ export default function PostsManagePage() {
       {loading ? (
         <div className="grid gap-4">
           {Array.from({ length: 3 }).map((_, i) => (
-            <Card key={i}>
+            <Card key={i} className="border-border bg-card">
               <CardHeader>
                 <div className="animate-pulse space-y-2">
                   <div className="h-4 bg-muted rounded w-3/4"></div>
@@ -133,12 +134,15 @@ export default function PostsManagePage() {
       ) : posts.length > 0 ? (
         <div className="grid gap-4">
           {posts.map((post) => (
-            <Card key={post.id}>
+            <Card key={post.id} className="neo-card group border-border bg-card relative overflow-hidden
+              transition-all duration-300 ease-in-out hover:shadow-lg">
+              {/* 日间模式：左侧装饰线 */}
+              <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300 dark:hidden" />
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <div className="space-y-2">
-                    <CardTitle className="line-clamp-1">{post.title}</CardTitle>
-                    <CardDescription>
+                    <CardTitle className="line-clamp-1 text-foreground">{post.title}</CardTitle>
+                    <CardDescription className="text-muted-foreground">
                       <div dangerouslySetInnerHTML={{ __html: post.summary || '暂无摘要' }}/>
                     </CardDescription>
                     <div className="flex items-center gap-4 text-sm text-muted-foreground">
@@ -155,22 +159,22 @@ export default function PostsManagePage() {
                   </div>
                   <div className="flex items-center gap-2">
                     {post.status === 'PUBLISHED' && (
-                      <Button variant="ghost" size="sm" asChild>
+                      <Button variant="ghost" size="sm" asChild className="hover:text-primary hover:bg-accent-soft">
                         <Link href={`/posts/${post.slug}`}>
                           <Eye className="h-4 w-4" />
                         </Link>
                       </Button>
                     )}
-                    <Button variant="ghost" size="sm" asChild>
+                    <Button variant="ghost" size="sm" asChild className="hover:text-primary hover:bg-accent-soft">
                       <Link href={`/admin/editor/${post.id}`}>
                         <Edit className="h-4 w-4" />
                       </Link>
                     </Button>
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
+                    <Button
+                      variant="ghost"
+                      size="sm"
                       onClick={() => deletePost(post.id)}
-                      className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                      className="text-destructive hover:text-destructive hover:bg-destructive/10"
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
@@ -181,10 +185,10 @@ export default function PostsManagePage() {
           ))}
         </div>
       ) : (
-        <Card>
+        <Card className="border-border bg-card">
           <CardContent className="text-center py-16">
             <p className="text-muted-foreground mb-4">还没有文章</p>
-            <Button onClick={createNewPost}>
+            <Button onClick={createNewPost} className="bg-primary text-primary-foreground hover:bg-primary/90">
               <PlusCircle className="mr-2 h-4 w-4" />
               创建第一篇文章
             </Button>

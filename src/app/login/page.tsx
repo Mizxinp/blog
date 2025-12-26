@@ -52,40 +52,41 @@ export default function LoginPage() {
   return (
     <div className="flex items-center justify-center min-h-[80vh] py-12">
       <div className="w-full max-w-md">
-        <Card className="shadow-lg border-border/50">
+        <Card className="shadow-lg border-border bg-card">
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl font-bold">管理员登录</CardTitle>
-            <CardDescription className="text-base">
+            <p className="text-xs text-muted-foreground tracking-widest mb-2">— Admin —</p>
+            <CardTitle className="text-2xl font-medium tracking-wide text-foreground">管 理 登 录</CardTitle>
+            <CardDescription className="text-base text-muted-foreground">
               请输入您的邮箱和密码来访问管理后台
             </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-sm font-medium">邮箱</Label>
+                <Label htmlFor="email" className="text-sm font-medium text-foreground">邮箱</Label>
                 <Input
                   id="email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="请输入邮箱"
-                  className="h-10"
+                  className="h-10 bg-card border-border focus:border-primary"
                   required
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-sm font-medium">密码</Label>
+                <Label htmlFor="password" className="text-sm font-medium text-foreground">密码</Label>
                 <Input
                   id="password"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="请输入密码"
-                  className="h-10"
+                  className="h-10 bg-card border-border focus:border-primary"
                   required
                 />
               </div>
-              <Button type="submit" className="w-full h-10" disabled={loading}>
+              <Button type="submit" className="w-full h-10 bg-primary text-primary-foreground hover:bg-primary/90" disabled={loading}>
                 {loading ? '登录中...' : '登录'}
               </Button>
             </form>

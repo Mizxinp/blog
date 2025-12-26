@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>风格方案三：温暖文艺风</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=LXGW+WenKai&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #FDF8F3;
+      --bg-secondary: #FFFFFF;
+      --bg-tertiary: #F5EDE4;
+      --bg-accent: #E8DFD5;
+      --text-primary: #2D2A26;
+      --text-secondary: #5C574F;
+      --text-muted: #9A958D;
+      --accent: #B8860B;
+      --accent-light: #D4A853;
+      --accent-soft: #F5E6C8;
+      --border: #E5DDD3;
+      --shadow: rgba(45, 42, 38, 0.06);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Serif SC', 'LXGW WenKai', Georgia, serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.9;
+      font-size: 16px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* Decorative Elements */
+    .ornament {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    .ornament::before,
+    .ornament::after {
+      content: '';
+      width: 60px;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* Navigation */
+    .nav {
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-inner {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 80px;
+      position: relative;
+    }
+
+    .logo {
+      position: absolute;
+      left: 0;
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--text-primary);
+      text-decoration: none;
+      letter-spacing: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 48px;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 15px;
+      letter-spacing: 1px;
+      transition: color 0.3s;
+      position: relative;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 4px;
+      background: var(--accent);
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .nav-links a:hover::after {
+      opacity: 1;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 100px 0 80px;
+      text-align: center;
+      background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+    }
+
+    .hero-quote {
+      font-size: 14px;
+      color: var(--text-muted);
+      letter-spacing: 3px;
+      margin-bottom: 40px;
+    }
+
+    .hero h1 {
+      font-size: 42px;
+      font-weight: 600;
+      letter-spacing: 4px;
+      margin-bottom: 32px;
+      color: var(--text-primary);
+    }
+
+    .hero p {
+      font-size: 17px;
+      color: var(--text-secondary);
+      max-width: 480px;
+      margin: 0 auto;
+      font-weight: 400;
+      line-height: 2;
+    }
+
+    .hero-divider {
+      width: 48px;
+      height: 2px;
+      background: var(--accent);
+      margin: 48px auto 0;
+    }
+
+    /* Section */
+    .section {
+      padding: 80px 0;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--text-primary);
+      letter-spacing: 4px;
+      margin-bottom: 16px;
+    }
+
+    .section-subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      letter-spacing: 2px;
+    }
+
+    /* Post Card */
+    .posts-list {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    .post-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 40px 48px;
+      transition: all 0.4s ease;
+      position: relative;
+    }
+
+    .post-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: var(--accent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .post-card:hover {
+      box-shadow: 0 12px 40px var(--shadow);
+    }
+
+    .post-card:hover::before {
+      opacity: 1;
+    }
+
+    .post-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .post-date {
+      font-size: 13px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+    }
+
+    .post-tags {
+      display: flex;
+      gap: 12px;
+    }
+
+    .tag {
+      font-size: 12px;
+      padding: 4px 14px;
+      background: var(--bg-tertiary);
+      color: var(--text-secondary);
+      border-radius: 2px;
+      letter-spacing: 1px;
+    }
+
+    .post-title {
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+      letter-spacing: 1px;
+      line-height: 1.5;
+    }
+
+    .post-excerpt {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 2;
+    }
+
+    .post-readmore {
+      display: inline-block;
+      margin-top: 24px;
+      font-size: 13px;
+      color: var(--accent);
+      text-decoration: none;
+      letter-spacing: 2px;
+      transition: color 0.3s;
+    }
+
+    .post-readmore:hover {
+      color: var(--accent-light);
+    }
+
+    /* Heatmap */
+    .heatmap-section {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 48px;
+      margin-bottom: 64px;
+    }
+
+    .heatmap-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .heatmap-title {
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--text-primary);
+      letter-spacing: 3px;
+    }
+
+    .heatmap-grid {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .heatmap-cell {
+      width: 12px;
+      height: 12px;
+      border-radius: 2px;
+      background: var(--bg-tertiary);
+    }
+
+    .heatmap-cell.level-1 {
+      background: #F5E6C8;
+    }
+
+    .heatmap-cell.level-2 {
+      background: #E8D4A8;
+    }
+
+    .heatmap-cell.level-3 {
+      background: #D4A853;
+    }
+
+    .heatmap-cell.level-4 {
+      background: var(--accent);
+    }
+
+    /* Quote Section */
+    .quote-section {
+      text-align: center;
+      padding: 80px 0;
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .quote-text {
+      font-size: 20px;
+      color: var(--text-secondary);
+      font-style: italic;
+      max-width: 600px;
+      margin: 0 auto 24px;
+      line-height: 2;
+    }
+
+    .quote-author {
+      font-size: 14px;
+      color: var(--text-muted);
+      letter-spacing: 2px;
+    }
+
+    /* Tags Section */
+    .tags-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+      padding: 48px 0;
+    }
+
+    .tag-large {
+      font-size: 14px;
+      padding: 12px 28px;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      border-radius: 2px;
+      transition: all 0.3s;
+      letter-spacing: 2px;
+    }
+
+    .tag-large:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    /* Article Detail */
+    .article-detail {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 80px 32px;
+    }
+
+    .article-meta {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .article-meta .category {
+      font-size: 12px;
+      color: var(--accent);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .article-meta h1 {
+      font-size: 32px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .article-meta .date {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .article-divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      margin: 48px 0;
+      position: relative;
+    }
+
+    .article-divider::before {
+      content: '◇';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--bg-primary);
+      padding: 0 16px;
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
+    .article-content {
+      font-size: 17px;
+      line-height: 2.2;
+      color: var(--text-primary);
+    }
+
+    .article-content p {
+      margin-bottom: 28px;
+      text-indent: 2em;
+    }
+
+    .article-content p:first-child::first-letter {
+      font-size: 48px;
+      float: left;
+      line-height: 1;
+      margin-right: 12px;
+      margin-top: 4px;
+      color: var(--accent);
+    }
+
+    .article-content h2 {
+      font-size: 22px;
+      font-weight: 500;
+      margin: 56px 0 28px;
+      letter-spacing: 2px;
+      text-align: center;
+    }
+
+    .article-content h2::before,
+    .article-content h2::after {
+      content: '—';
+      margin: 0 12px;
+      color: var(--text-muted);
+    }
+
+    .article-content code {
+      background: var(--bg-tertiary);
+      padding: 2px 10px;
+      border-radius: 2px;
+      font-size: 14px;
+      font-family: 'Menlo', monospace;
+    }
+
+    .article-content pre {
+      background: #2D2A26;
+      color: #F5EDE4;
+      padding: 28px;
+      border-radius: 4px;
+      overflow-x: auto;
+      margin: 36px 0;
+      font-family: 'Menlo', monospace;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .article-content blockquote {
+      border-left: 3px solid var(--accent);
+      margin: 36px 0;
+      padding: 20px 28px;
+      background: var(--bg-secondary);
+      font-style: italic;
+      color: var(--text-secondary);
+    }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 56px 0;
+      text-align: center;
+      background: var(--bg-secondary);
+    }
+
+    .footer-logo {
+      font-size: 20px;
+      letter-spacing: 3px;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+    }
+
+    .footer p {
+      font-size: 13px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+    }
+
+    /* Style Info */
+    .style-info {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      padding: 20px 28px;
+      border-radius: 4px;
+      box-shadow: 0 8px 30px var(--shadow);
+    }
+
+    .style-info h3 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--accent);
+    }
+
+    .style-info p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 80px 0;
+    }
+
+    .page-label {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      letter-spacing: 4px;
+      margin-bottom: 48px;
+      padding-top: 80px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a href="#" class="logo">墨迹</a>
+      <div class="nav-links">
+        <a href="#">首页</a>
+        <a href="#">文章</a>
+        <a href="#">随笔</a>
+        <a href="#">关于</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <p class="hero-quote">— 笔墨之间，皆是生活 —</p>
+      <h1>且听风吟</h1>
+      <p>记录技术探索的点滴<br>分享对编程与生活的思考</p>
+      <div class="hero-divider"></div>
+    </div>
+  </section>
+
+  <!-- Heatmap -->
+  <div class="container">
+    <div class="heatmap-section">
+      <div class="heatmap-header">
+        <span class="heatmap-title">创 作 足 迹</span>
+      </div>
+      <div class="heatmap-grid">
+        <script>
+          const levels = ['', 'level-1', 'level-2', 'level-3', 'level-4'];
+          for (let i = 0; i < 365; i++) {
+            const level = levels[Math.floor(Math.random() * 5)];
+            document.write(`<div class="heatmap-cell ${level}"></div>`);
+          }
+        </script>
+      </div>
+    </div>
+  </div>
+
+  <!-- Posts -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">近 期 文 章</h2>
+        <p class="section-subtitle">Recent Articles</p>
+      </div>
+      <div class="posts-list">
+        <article class="post-card">
+          <div class="post-header">
+            <span class="post-date">癸卯年 · 腊月廿日</span>
+            <div class="post-tags">
+              <span class="tag">React</span>
+              <span class="tag">性能优化</span>
+            </div>
+          </div>
+          <h3 class="post-title">构建高性能的 React 应用：从理论到实践</h3>
+          <p class="post-excerpt">在现代 Web 开发中，性能优化已经成为不可忽视的重要话题。React
+            作为最流行的前端框架之一，提供了许多内置的优化机制，但要充分发挥其潜力，我们需要深入理解其底层原理...</p>
+          <a href="#" class="post-readmore">阅读全文 →</a>
+        </article>
+        <article class="post-card">
+          <div class="post-header">
+            <span class="post-date">癸卯年 · 腊月十五</span>
+            <div class="post-tags">
+              <span class="tag">TypeScript</span>
+              <span class="tag">前端</span>
+            </div>
+          </div>
+          <h3 class="post-title">TypeScript 5.0 新特性完全指南</h3>
+          <p class="post-excerpt">TypeScript 5.0 带来了许多令人兴奋的新特性，让我们一起来探索这些改进如何提升开发体验。本文将深入分析每个新特性的使用场景和最佳实践...</p>
+          <a href="#" class="post-readmore">阅读全文 →</a>
+        </article>
+        <article class="post-card">
+          <div class="post-header">
+            <span class="post-date">癸卯年 · 腊月初十</span>
+            <div class="post-tags">
+              <span class="tag">Next.js</span>
+              <span class="tag">RSC</span>
+            </div>
+          </div>
+          <h3 class="post-title">Next.js 15 服务端组件深度解析</h3>
+          <p class="post-excerpt">服务端组件是 Next.js 15 的核心特性，本文将带你深入理解其工作原理和最佳实践。从架构设计到实际应用，全方位解读这一革命性的技术方案...</p>
+          <a href="#" class="post-readmore">阅读全文 →</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quote -->
+  <section class="quote-section">
+    <div class="container">
+      <p class="quote-text">"代码如诗，应当优雅而有力。<br>每一行代码都是思想的延伸，<br>每一个函数都是逻辑的艺术。"</p>
+      <p class="quote-author">— 写于某个深夜</p>
+    </div>
+  </section>
+
+  <!-- Tags -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">标 签 云</h2>
+        <p class="section-subtitle">Tag Cloud</p>
+      </div>
+      <div class="tags-section">
+        <span class="tag-large">React</span>
+        <span class="tag-large">TypeScript</span>
+        <span class="tag-large">Next.js</span>
+        <span class="tag-large">Node.js</span>
+        <span class="tag-large">CSS</span>
+        <span class="tag-large">JavaScript</span>
+        <span class="tag-large">性能优化</span>
+        <span class="tag-large">架构设计</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- Article Detail Preview -->
+  <p class="page-label">· 文 章 详 情 页 ·</p>
+  <article class="article-detail">
+    <div class="article-meta">
+      <p class="category">技术随笔</p>
+      <h1>构建高性能的 React 应用：从理论到实践</h1>
+      <p class="date">癸卯年腊月廿日 · 阅读约 8 分钟</p>
+    </div>
+    <div class="article-divider"></div>
+    <div class="article-content">
+      <p>在现代 Web 开发中，性能优化已经成为不可忽视的重要话题。React 作为最流行的前端框架之一，提供了许多内置的优化机制，但要充分发挥其潜力，我们需要深入理解其底层原理，方能在纷繁复杂的业务需求中游刃有余。</p>
+
+      <h2>理解虚拟 DOM</h2>
+      <p>虚拟 DOM 是 React 性能优化的核心。它是一个轻量级的 JavaScript 对象，用于描述真实 DOM 的结构。当状态发生变化时，React 会创建新的虚拟 DOM 树，并与旧树进行比较（这个过程称为
+        <code>reconciliation</code>），最终只更新需要变化的部分。</p>
+
+      <blockquote>
+        代码的优雅不仅在于其功能的实现，更在于其结构的清晰与性能的卓越。
+      </blockquote>
+
+      <pre><code>// 使用 React.memo 优化组件
+const ExpensiveComponent = React.memo(({ data }) => {
+  return (
+    &lt;div&gt;
+      {data.map(item => &lt;Item key={item.id} {...item} /&gt;)}
+    &lt;/div&gt;
+  )
+});</code></pre>
+
+      <h2>使用 useMemo 和 useCallback</h2>
+      <p>这两个 Hook 可以帮助我们避免不必要的计算和函数重新创建。合理使用它们可以显著提升组件的渲染性能，特别是在处理大型列表或复杂计算时。性能优化如烹小鲜，需要耐心与细致。</p>
+    </div>
+  </article>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p class="footer-logo">墨 迹</p>
+      <p>以文字为舟，载思绪远航</p>
+      <p style="margin-top: 16px;">&copy; 癸卯年 · 版权所有</p>
+    </div>
+  </footer>
+
+  <!-- Style Info Card -->
+  <div class="style-info">
+    <h3>风格三：温暖文艺风</h3>
+    <p>
+      特点：暖色调、衬线字体、书卷气<br>
+      字体：Noto Serif SC + LXGW WenKai<br>
+      配色：米色系 + 金色强调<br>
+      适合：个人随笔、文学博客
+    </p>
+  </div>
+</body>
+
+</html>

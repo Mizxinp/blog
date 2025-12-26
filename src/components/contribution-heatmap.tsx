@@ -28,13 +28,13 @@ function ContributionTooltip({ day, position }: TooltipProps) {
 
   return (
     <div
-      className="fixed z-50 bg-popover border rounded-md shadow-md p-3 min-w-[200px] pointer-events-none"
+      className="fixed z-50 bg-card border border-border rounded-md shadow-lg p-3 min-w-[200px] pointer-events-none"
       style={{
         left: Math.max(10, Math.min(position.x - 100, window.innerWidth - 220)),
         top: Math.max(10, position.y - 80),
       }}
     >
-      <div className="text-sm font-medium">{formattedDate}</div>
+      <div className="text-sm font-medium text-foreground">{formattedDate}</div>
       <div className="text-sm text-muted-foreground mt-1">
         {day.count > 0 ? `${day.count} 次贡献` : "无贡献"}
       </div>
@@ -46,7 +46,7 @@ function ContributionTooltip({ day, position }: TooltipProps) {
               <span
                 className={cn(
                   "inline-block w-2 h-2 rounded-full mr-1",
-                  activity.type === "publish" ? "bg-green-500" : "bg-blue-500"
+                  activity.type === "publish" ? "bg-primary" : "bg-muted-foreground"
                 )}
               />
               {activity.type === "publish" ? "发布" : "更新"}: {activity.title}
@@ -71,7 +71,6 @@ function YearSelector({
   onYearChange: (year: number) => void;
 }) {
   const currentYear = new Date().getFullYear();
-  // const years = [currentYear, currentYear - 1];
   const years = [currentYear];
 
   return (
@@ -81,7 +80,7 @@ function YearSelector({
           key={year}
           onClick={() => onYearChange(year)}
           className={cn(
-            "px-3 py-1 text-sm font-medium rounded-md transition-colors",
+            "px-3 py-1 text-sm font-medium rounded transition-colors",
             selectedYear === year
               ? "bg-primary text-primary-foreground"
               : "text-muted-foreground hover:text-foreground hover:bg-muted"
@@ -101,21 +100,21 @@ function ContributionSummary({
 }) {
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-      <div>
+      <div className="p-4 bg-card border border-border rounded">
         <div className="text-2xl font-bold text-primary">{data.total}</div>
         <div className="text-sm text-muted-foreground">总贡献</div>
       </div>
-      <div>
+      <div className="p-4 bg-card border border-border rounded">
         <div className="text-2xl font-bold text-primary">{data.maxStreak}</div>
         <div className="text-sm text-muted-foreground">最长连续</div>
       </div>
-      <div>
+      <div className="p-4 bg-card border border-border rounded">
         <div className="text-2xl font-bold text-primary">
           {data.currentStreak}
         </div>
         <div className="text-sm text-muted-foreground">当前连续</div>
       </div>
-      <div>
+      <div className="p-4 bg-card border border-border rounded">
         <div className="text-2xl font-bold text-primary">
           {data.maxDayCount}
         </div>
@@ -149,6 +148,15 @@ function ContributionSkeleton() {
     </div>
   );
 }
+
+// 热力图颜色样式映射
+const heatmapColorStyles: Record<string, string> = {
+  'heatmap-level-0': 'bg-[var(--heatmap-level-0)]',
+  'heatmap-level-1': 'bg-[var(--heatmap-level-1)]',
+  'heatmap-level-2': 'bg-[var(--heatmap-level-2)]',
+  'heatmap-level-3': 'bg-[var(--heatmap-level-3)]',
+  'heatmap-level-4': 'bg-[var(--heatmap-level-4)]',
+};
 
 function ContributionGrid({
   data,
@@ -193,13 +201,14 @@ function ContributionGrid({
                 }
 
                 const level = getContributionLevel(day.count);
+                const colorClass = heatmapColorStyles[level.color] || 'bg-muted';
 
                 return (
                   <div
                     key={day.date}
                     className={cn(
-                      "w-3 h-3 cursor-pointer transition-all",
-                      level.color
+                      "w-3 h-3 rounded-sm cursor-pointer transition-all hover:ring-1 hover:ring-primary/50",
+                      colorClass
                     )}
                     onMouseEnter={(e) => {
                       const rect = e.currentTarget.getBoundingClientRect();
@@ -290,11 +299,11 @@ export function ContributionHeatmap({
 
   const hasContributions = contributions.length > 0;
 
-    return (
-    <div className={cn("space-y-4", className)}>
+  return (
+    <div className={cn("space-y-4 p-6 bg-card border border-border rounded", className)}>
       {/* 年份选择和图例 */}
       <div className="flex items-center justify-between">
-        <YearSelector 
+        <YearSelector
           selectedYear={selectedYear}
           onYearChange={setSelectedYear}
         />
@@ -303,10 +312,11 @@ export function ContributionHeatmap({
           <div className="flex gap-1">
             {[0, 1, 2, 4, 7].map((count) => {
               const level = getContributionLevel(count);
+              const colorClass = heatmapColorStyles[level.color] || 'bg-muted';
               return (
                 <div
                   key={count}
-                  className={cn("w-3 h-3", level.color)}
+                  className={cn("w-3 h-3 rounded-sm", colorClass)}
                   title={level.label}
                 />
               );
@@ -321,9 +331,9 @@ export function ContributionHeatmap({
       {hasContributions ? (
         <div className="relative">
           <ContributionGrid data={calendarData} onDayHover={handleDayHover} />
-          
+
           {hoveredDay && (
-            <ContributionTooltip 
+            <ContributionTooltip
               day={hoveredDay.day}
               position={hoveredDay.position}
             />
@@ -331,7 +341,7 @@ export function ContributionHeatmap({
         </div>
       ) : (
         <div className="text-center py-12">
-          <div className="text-lg font-medium mb-2">快来写下第一篇文章吧！</div>
+          <div className="text-lg font-medium mb-2 text-foreground">快来写下第一篇文章吧！</div>
           <div className="text-sm text-muted-foreground mb-4">
             {selectedYear} 年还没有任何贡献记录
           </div>

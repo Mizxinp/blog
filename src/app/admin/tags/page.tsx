@@ -147,43 +147,46 @@ export default function TagsManagePage() {
     <div className="container py-8">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-3xl font-bold">标签管理</h1>
-          <p className="text-muted-foreground">管理您的博客标签</p>
+          <p className="text-xs text-muted-foreground tracking-widest mb-2">— Tags —</p>
+          <h1 className="text-3xl font-medium tracking-wide text-foreground">标 签 管 理</h1>
+          <p className="text-muted-foreground mt-2">管理您的博客标签</p>
         </div>
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger asChild>
-            <Button onClick={openCreateDialog}>
+            <Button onClick={openCreateDialog} className="bg-primary text-primary-foreground hover:bg-primary/90">
               <PlusCircle className="mr-2 h-4 w-4" />
               新建标签
             </Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="border-border bg-card">
             <DialogHeader>
-              <DialogTitle>{editingTag ? '编辑标签' : '新建标签'}</DialogTitle>
-              <DialogDescription>
+              <DialogTitle className="text-foreground">{editingTag ? '编辑标签' : '新建标签'}</DialogTitle>
+              <DialogDescription className="text-muted-foreground">
                 {editingTag ? '修改标签信息' : '创建一个新的标签分类'}
               </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <Label htmlFor="name">标签名称</Label>
+                <Label htmlFor="name" className="text-foreground">标签名称</Label>
                 <Input
                   id="name"
                   type="text"
                   value={formData.name}
                   onChange={(e) => handleNameChange(e.target.value)}
                   placeholder="请输入标签名称"
+                  className="bg-card border-border focus:border-primary"
                   required
                 />
               </div>
               <div>
-                <Label htmlFor="slug">标签链接</Label>
+                <Label htmlFor="slug" className="text-foreground">标签链接</Label>
                 <Input
                   id="slug"
                   type="text"
                   value={formData.slug}
                   onChange={(e) => setFormData(prev => ({ ...prev, slug: e.target.value }))}
                   placeholder="请输入标签链接"
+                  className="bg-card border-border focus:border-primary"
                   required
                 />
                 <p className="text-sm text-muted-foreground mt-1">
@@ -191,10 +194,10 @@ export default function TagsManagePage() {
                 </p>
               </div>
               <div className="flex justify-end gap-2">
-                <Button type="button" variant="outline" onClick={() => setDialogOpen(false)}>
+                <Button type="button" variant="outline" onClick={() => setDialogOpen(false)} className="border-border hover:border-primary hover:text-primary">
                   取消
                 </Button>
-                <Button type="submit" disabled={submitting}>
+                <Button type="submit" disabled={submitting} className="bg-primary text-primary-foreground hover:bg-primary/90">
                   {submitting ? '保存中...' : '保存'}
                 </Button>
               </div>
@@ -206,7 +209,7 @@ export default function TagsManagePage() {
       {loading ? (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: 6 }).map((_, i) => (
-            <Card key={i}>
+            <Card key={i} className="border-border bg-card">
               <CardHeader>
                 <div className="animate-pulse space-y-2">
                   <div className="h-4 bg-muted rounded w-3/4"></div>
@@ -219,34 +222,38 @@ export default function TagsManagePage() {
       ) : tags.length > 0 ? (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {tags.map((tag) => (
-            <Card key={tag.id}>
+            <Card key={tag.id} className="neo-card group border-border bg-card relative overflow-hidden
+              transition-all duration-300 ease-in-out hover:shadow-lg">
+              {/* 日间模式：左侧装饰线 */}
+              <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300 dark:hidden" />
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <div className="space-y-2">
-                    <CardTitle className="line-clamp-1">{tag.name}</CardTitle>
-                    <CardDescription>
+                    <CardTitle className="line-clamp-1 text-foreground">{tag.name}</CardTitle>
+                    <CardDescription className="text-muted-foreground">
                       链接: /{tag.slug}
                     </CardDescription>
                     <div className="flex items-center gap-2">
-                      <Badge variant="secondary">
+                      <Badge variant="secondary" className="neo-tag bg-accent-soft text-primary transition-all">
                         {tag._count?.posts} 篇文章
                       </Badge>
                     </div>
                   </div>
                   <div className="flex items-center gap-1">
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
+                    <Button
+                      variant="ghost"
+                      size="sm"
                       onClick={() => openEditDialog(tag)}
+                      className="hover:text-primary hover:bg-accent-soft"
                     >
                       <Edit className="h-4 w-4" />
                     </Button>
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
+                    <Button
+                      variant="ghost"
+                      size="sm"
                       onClick={() => deleteTag(tag)}
                       disabled={tag?._count?.posts > 0}
-                      className={tag?._count?.posts > 0 ? 'opacity-50 cursor-not-allowed' : 'text-red-600 hover:text-red-700 hover:bg-red-50'}
+                      className={tag?._count?.posts > 0 ? 'opacity-50 cursor-not-allowed' : 'text-destructive hover:text-destructive hover:bg-destructive/10'}
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
@@ -257,10 +264,10 @@ export default function TagsManagePage() {
           ))}
         </div>
       ) : (
-        <Card>
+        <Card className="border-border bg-card">
           <CardContent className="text-center py-16">
             <p className="text-muted-foreground mb-4">还没有标签</p>
-            <Button onClick={openCreateDialog}>
+            <Button onClick={openCreateDialog} className="bg-primary text-primary-foreground hover:bg-primary/90">
               <PlusCircle className="mr-2 h-4 w-4" />
               创建第一个标签
             </Button>

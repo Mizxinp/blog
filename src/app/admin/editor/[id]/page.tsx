@@ -197,26 +197,29 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
   if (!post) {
     return (
       <div className="container py-8">
-        <p>文章不存在</p>
+        <p className="text-foreground">文章不存在</p>
       </div>
     )
   }
 
   return (
-    <div className="h-screen flex flex-col">
+    <div className="h-screen flex flex-col bg-background">
       {/* 顶部工具栏 */}
-      <div className="border-b px-6 py-4 bg-background">
+      <div className="border-b border-border px-6 py-4 bg-card">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="sm" asChild>
+            <Button variant="ghost" size="sm" asChild className="hover:text-primary hover:bg-accent-soft">
               <Link href="/admin/posts">
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 返回管理
               </Link>
             </Button>
-            
+
             <div className="flex items-center gap-2">
-              <Badge variant={post.status === 'PUBLISHED' ? 'default' : 'secondary'}>
+              <Badge
+                variant={post.status === 'PUBLISHED' ? 'default' : 'secondary'}
+                className={post.status === 'PUBLISHED' ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'}
+              >
                 {post.status === 'PUBLISHED' ? '已发布' : '草稿'}
               </Badge>
               {saving && <span className="text-sm text-muted-foreground">保存中...</span>}
@@ -225,28 +228,30 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
 
           <div className="flex items-center gap-2">
             {post.status === 'PUBLISHED' && (
-              <Button variant="outline" size="sm" asChild>
+              <Button variant="outline" size="sm" asChild className="border-border hover:border-primary hover:text-primary">
                 <Link href={`/posts/${post.slug}`}>
                   <Eye className="mr-2 h-4 w-4" />
                   预览
                 </Link>
               </Button>
             )}
-            
-            <Button 
-              variant="outline" 
-              size="sm" 
+
+            <Button
+              variant="outline"
+              size="sm"
               onClick={() => handleSave(true)}
               disabled={saving}
+              className="border-border hover:border-primary hover:text-primary"
             >
               <Save className="mr-2 h-4 w-4" />
               保存
             </Button>
-            
-            <Button 
-              size="sm" 
+
+            <Button
+              size="sm"
               onClick={handlePublish}
               disabled={publishing || saving}
+              className="bg-primary text-primary-foreground hover:bg-primary/90"
             >
               <Send className="mr-2 h-4 w-4" />
               {post.status === 'PUBLISHED' ? '更新' : '发布'}
@@ -259,7 +264,7 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
       <div className="flex-1 flex overflow-hidden">
         {/* 编辑器 */}
         <div className="w-full flex flex-col">
-          <div className="p-6 flex-1 overflow-auto">
+          <div className="p-6 flex-1 overflow-auto bg-background">
             <div className="space-y-6">
               {/* 标题 */}
               <div>
@@ -267,14 +272,14 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="文章标题..."
-                  className="text-2xl md:text-3xl font-bold border-none p-0 h-auto focus-visible:ring-0 text-foreground placeholder:text-muted-foreground"
+                  className="text-2xl md:text-3xl font-medium border-none p-0 h-auto focus-visible:ring-0 bg-transparent text-foreground placeholder:text-muted-foreground tracking-wide"
                   style={{ fontSize: '1.875rem', lineHeight: '2.25rem' }}
                 />
               </div>
 
               {/* Slug */}
               <div className="space-y-2">
-                <Label htmlFor="slug" className="text-sm font-medium">文章链接 (slug)</Label>
+                <Label htmlFor="slug" className="text-sm font-medium text-foreground">文章链接 (slug)</Label>
                 <Input
                   id="slug"
                   value={slug}
@@ -287,24 +292,24 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
                     setSlug(cleanSlug)
                   }}
                   placeholder="article-slug-example"
-                  className="font-mono text-sm"
+                  className="font-mono text-sm bg-card border-border focus:border-primary"
                 />
                 <p className="text-xs text-muted-foreground">
                   文章的URL路径，只能包含字母、数字和连字符，将显示为: /posts/{slug || 'your-slug'}
                 </p>
               </div>
 
-              <Separator />
+              <Separator className="bg-border" />
 
               {/* 摘要 */}
               <div className="space-y-2">
-                <Label htmlFor="summary" className="text-sm font-medium">摘要（可选）</Label>
+                <Label htmlFor="summary" className="text-sm font-medium text-foreground">摘要（可选）</Label>
                 <Textarea
                   id="summary"
                   value={summary}
                   onChange={(e) => setSummary(e.target.value)}
                   placeholder="为文章添加一段简短的摘要..."
-                  className="min-h-[80px] resize-none"
+                  className="min-h-[80px] resize-none bg-card border-border focus:border-primary"
                 />
               </div>
 
@@ -316,7 +321,7 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
 
               {/* 内容编辑器 */}
               <div className="space-y-2 flex-1">
-                <Label htmlFor="content" className="text-sm font-medium">内容</Label>
+                <Label htmlFor="content" className="text-sm font-medium text-foreground">内容</Label>
                 <SimpleEditor
                   content={content}
                   onChange={setContent}

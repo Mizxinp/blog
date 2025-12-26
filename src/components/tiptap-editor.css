@@ -47,16 +47,16 @@
 }
 
 .tiptap-editor .ProseMirror blockquote {
-  border-left: 4px solid #d1d5db;
+  border-left: 4px solid var(--border);
   padding-left: 1rem;
   font-style: italic;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
-  color: #6b7280;
+  color: var(--muted-foreground);
 }
 
 .tiptap-editor .ProseMirror pre {
-  background-color: #f3f4f6;
+  background-color: var(--muted);
   padding: 1rem;
   border-radius: 0.375rem;
   overflow-x: auto;
@@ -65,7 +65,7 @@
 }
 
 .tiptap-editor .ProseMirror code {
-  background-color: #f3f4f6;
+  background-color: var(--muted);
   padding: 0.125rem 0.25rem;
   border-radius: 0.25rem;
   font-size: 0.875rem;
@@ -84,19 +84,7 @@
   margin-bottom: 0;
 }
 
-/* Dark mode styles */
-.dark .tiptap-editor .ProseMirror blockquote {
-  border-left-color: #4b5563;
-  color: #9ca3af;
-}
-
-.dark .tiptap-editor .ProseMirror pre {
-  background-color: #1f2937;
-}
-
-.dark .tiptap-editor .ProseMirror code {
-  background-color: #1f2937;
-}
+/* Dark mode styles - now handled by CSS variables */
 
 /* Preview Content Styles */
 .preview-content h1 {
@@ -143,16 +131,16 @@
 }
 
 .preview-content blockquote {
-  border-left: 4px solid #d1d5db !important;
+  border-left: 4px solid var(--border) !important;
   padding-left: 1rem !important;
   font-style: italic !important;
   margin-top: 0.5rem !important;
   margin-bottom: 0.5rem !important;
-  color: #6b7280 !important;
+  color: var(--muted-foreground) !important;
 }
 
 .preview-content pre {
-  background-color: #f3f4f6 !important;
+  background-color: var(--muted) !important;
   padding: 1rem !important;
   border-radius: 0.375rem !important;
   overflow-x: auto !important;
@@ -161,7 +149,7 @@
 }
 
 .preview-content code {
-  background-color: #f3f4f6 !important;
+  background-color: var(--muted) !important;
   padding: 0.125rem 0.25rem !important;
   border-radius: 0.25rem !important;
   font-size: 0.875rem !important;
@@ -180,16 +168,4 @@
   margin-bottom: 0 !important;
 }
 
-/* Dark mode styles for preview */
-.dark .preview-content blockquote {
-  border-left-color: #4b5563 !important;
-  color: #9ca3af !important;
-}
-
-.dark .preview-content pre {
-  background-color: #1f2937 !important;
-}
-
-.dark .preview-content code {
-  background-color: #1f2937 !important;
-} 
+/* Dark mode styles for preview - now handled by CSS variables */ 

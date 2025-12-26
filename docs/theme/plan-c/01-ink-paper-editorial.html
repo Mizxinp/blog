@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>风格方案一：纸感编辑部</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f7f2ea;
+      --bg-soft: #fbf7f2;
+      --ink: #1f1b16;
+      --muted: #6f665b;
+      --accent: #c86b4a;
+      --accent-2: #2d6a6a;
+      --border: #e6dbcf;
+      --card: #fffdf9;
+      --shadow: rgba(31, 27, 22, 0.08);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0) 260px),
+        repeating-linear-gradient(90deg, rgba(199, 182, 162, 0.12), rgba(199, 182, 162, 0.12) 1px, transparent 1px, transparent 24px),
+        var(--bg);
+      color: var(--ink);
+      line-height: 1.75;
+      font-size: 16px;
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 28px;
+    }
+
+    .page-label {
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      font-size: 11px;
+      color: var(--muted);
+      padding: 80px 0 36px;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      background: rgba(247, 242, 234, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      z-index: 10;
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 76px;
+    }
+
+    .logo {
+      font-family: 'Fraunces', serif;
+      font-size: 22px;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      font-size: 14px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      letter-spacing: 0.4px;
+    }
+
+    .nav-cta {
+      background: var(--ink);
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 13px;
+      text-decoration: none;
+    }
+
+    .hero {
+      padding: 110px 0 70px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .hero h1 {
+      font-family: 'Fraunces', serif;
+      font-size: 56px;
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 18px;
+      margin-bottom: 28px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      padding: 12px 26px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-weight: 600;
+      box-shadow: 0 12px 20px rgba(200, 107, 74, 0.25);
+    }
+
+    .btn-secondary {
+      border: 1px solid var(--border);
+      padding: 12px 22px;
+      border-radius: 14px;
+      text-decoration: none;
+      color: var(--ink);
+      background: var(--card);
+    }
+
+    .hero-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 24px 36px var(--shadow);
+    }
+
+    .hero-card h3 {
+      font-family: 'Fraunces', serif;
+      font-size: 20px;
+      margin-bottom: 12px;
+    }
+
+    .hero-card p {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .hero-stat {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .hero-stat div {
+      padding: 14px;
+      background: var(--bg-soft);
+      border-radius: 16px;
+      border: 1px dashed var(--border);
+      text-align: center;
+    }
+
+    .hero-stat span {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .section {
+      padding: 72px 0;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 32px;
+    }
+
+    .section-title {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--muted);
+    }
+
+    .section-link {
+      text-decoration: none;
+      color: var(--accent-2);
+      font-weight: 600;
+    }
+
+    .posts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 22px;
+    }
+
+    .post-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 22px;
+      box-shadow: 0 18px 26px var(--shadow);
+      transition: transform 0.2s ease;
+    }
+
+    .post-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .post-date {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .post-title {
+      font-family: 'Fraunces', serif;
+      font-size: 20px;
+      margin: 12px 0;
+    }
+
+    .post-excerpt {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .tag-row {
+      margin-top: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--bg-soft);
+      color: var(--muted);
+    }
+
+    .heatmap {
+      display: grid;
+      grid-template-columns: repeat(30, 1fr);
+      gap: 4px;
+      background: var(--card);
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      padding: 18px;
+    }
+
+    .heat-cell {
+      width: 100%;
+      padding-bottom: 100%;
+      border-radius: 4px;
+      background: #eee4d8;
+    }
+
+    .heat-1 { background: #e7d6c7; }
+    .heat-2 { background: #d9bca6; }
+    .heat-3 { background: #c69b7d; }
+    .heat-4 { background: #b07352; }
+
+    .list-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 28px;
+    }
+
+    .filter-panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 20px;
+      height: fit-content;
+    }
+
+    .search {
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      width: 100%;
+      margin-bottom: 18px;
+      font-family: inherit;
+    }
+
+    .list-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 18px;
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .cover {
+      width: 100%;
+      height: 90px;
+      border-radius: 14px;
+      background: linear-gradient(120deg, #d6b79f, #f2e3d4);
+    }
+
+    .pagination {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 24px;
+    }
+
+    .page-pill {
+      padding: 6px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--bg-soft);
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .article-detail {
+      max-width: 860px;
+      margin: 0 auto;
+      background: var(--card);
+      border-radius: 26px;
+      border: 1px solid var(--border);
+      padding: 48px;
+      box-shadow: 0 28px 40px var(--shadow);
+    }
+
+    .article-detail h1 {
+      font-family: 'Fraunces', serif;
+      font-size: 40px;
+      margin-bottom: 12px;
+    }
+
+    .article-detail h2 {
+      font-family: 'Fraunces', serif;
+      margin-top: 30px;
+      margin-bottom: 12px;
+    }
+
+    .article-meta {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .toc {
+      border-left: 3px solid var(--accent-2);
+      padding-left: 16px;
+      margin: 24px 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .code-block {
+      background: #1f1b16;
+      color: #f8efe4;
+      padding: 16px;
+      border-radius: 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      margin-top: 16px;
+    }
+
+    .admin-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .admin-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .table {
+      margin-top: 18px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      background: var(--card);
+    }
+
+    .table-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 80px;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .table-row strong {
+      color: var(--ink);
+    }
+
+    .editor-wrap {
+      background: var(--card);
+      border-radius: 22px;
+      border: 1px solid var(--border);
+      padding: 28px;
+    }
+
+    .editor-title {
+      border: none;
+      background: transparent;
+      font-size: 32px;
+      font-family: 'Fraunces', serif;
+      width: 100%;
+      margin-bottom: 18px;
+    }
+
+    .editor-block {
+      background: var(--bg-soft);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 12px;
+      color: var(--muted);
+    }
+
+    .login-box {
+      max-width: 420px;
+      margin: 0 auto;
+      background: var(--card);
+      border-radius: 22px;
+      padding: 32px;
+      border: 1px solid var(--border);
+      box-shadow: 0 24px 36px var(--shadow);
+      text-align: center;
+    }
+
+    .login-box h3 {
+      font-family: 'Fraunces', serif;
+      margin-bottom: 8px;
+    }
+
+    .login-input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin: 10px 0;
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(14px);
+      animation: fadeUp 0.6s ease forwards;
+    }
+
+    .fade-in.delay-1 { animation-delay: 0.1s; }
+    .fade-in.delay-2 { animation-delay: 0.2s; }
+    .fade-in.delay-3 { animation-delay: 0.3s; }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 960px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .list-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .admin-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="logo" href="#">Inklog</a>
+      <div class="nav-links">
+        <a href="#">首页</a>
+        <a href="#">文章</a>
+        <a href="#">关于</a>
+        <a href="#">登录</a>
+      </div>
+      <a class="nav-cta" href="#">写文章</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <h1 class="fade-in">在纸页与代码之间，记录每一次发现。</h1>
+        <p class="fade-in delay-1">一个面向开发者的个人博客，强调阅读舒适度与结构感，让内容像杂志一样被收藏。</p>
+        <div class="hero-actions fade-in delay-2">
+          <a class="btn-primary" href="#">浏览文章</a>
+          <a class="btn-secondary" href="#">订阅更新</a>
+        </div>
+      </div>
+      <div class="hero-card fade-in delay-3">
+        <h3>本周精选</h3>
+        <p>用更轻量的架构写出高性能前端，打造令人信赖的工程体验。</p>
+        <div class="hero-stat">
+          <div>
+            <strong>128</strong><br>
+            <span>已发布</span>
+          </div>
+          <div>
+            <strong>36</strong><br>
+            <span>标签</span>
+          </div>
+          <div>
+            <strong>1.8k</strong><br>
+            <span>阅读</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-title">创作热度</span>
+        <a class="section-link" href="#">查看年度统计</a>
+      </div>
+      <div class="heatmap" id="heatmap-a"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-title">最新文章</span>
+        <a class="section-link" href="#">全部文章 →</a>
+      </div>
+      <div class="posts-grid">
+        <article class="post-card">
+          <div class="post-date">2024.12.20</div>
+          <h3 class="post-title">构建高性能的 React 应用</h3>
+          <p class="post-excerpt">从调和机制到实际优化策略，系统梳理性能提升的路线图。</p>
+          <div class="tag-row">
+            <span class="tag">React</span>
+            <span class="tag">性能优化</span>
+          </div>
+        </article>
+        <article class="post-card">
+          <div class="post-date">2024.12.15</div>
+          <h3 class="post-title">TypeScript 5.0 里程碑</h3>
+          <p class="post-excerpt">总结全新语法、类型推导与工程体验升级。</p>
+          <div class="tag-row">
+            <span class="tag">TypeScript</span>
+            <span class="tag">前端工程</span>
+          </div>
+        </article>
+        <article class="post-card">
+          <div class="post-date">2024.12.10</div>
+          <h3 class="post-title">Next.js 15 服务器组件实践</h3>
+          <p class="post-excerpt">拆解 Server Components 的优缺点与可落地的应用场景。</p>
+          <div class="tag-row">
+            <span class="tag">Next.js</span>
+            <span class="tag">架构</span>
+          </div>
+        </article>
+        <article class="post-card">
+          <div class="post-date">2024.12.05</div>
+          <h3 class="post-title">现代 CSS 布局方法论</h3>
+          <p class="post-excerpt">Grid + Flex 的组合策略，解决复杂排版问题。</p>
+          <div class="tag-row">
+            <span class="tag">CSS</span>
+            <span class="tag">布局</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-title">热门标签</span>
+      </div>
+      <div class="tag-row">
+        <span class="tag">架构设计</span>
+        <span class="tag">性能调优</span>
+        <span class="tag">设计系统</span>
+        <span class="tag">全栈</span>
+        <span class="tag">AI 工具</span>
+        <span class="tag">写作</span>
+        <span class="tag">工程化</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="page-label">列表页预览</div>
+  <section class="section">
+    <div class="container list-layout">
+      <aside class="filter-panel">
+        <input class="search" placeholder="搜索文章..." />
+        <div class="tag-row">
+          <span class="tag">React</span>
+          <span class="tag">TypeScript</span>
+          <span class="tag">Next.js</span>
+          <span class="tag">CSS</span>
+          <span class="tag">工具</span>
+        </div>
+      </aside>
+      <div>
+        <div class="list-item">
+          <div class="cover"></div>
+          <div>
+            <div class="post-date">2024.12.01</div>
+            <h3 class="post-title">工程师的效率系统</h3>
+            <p class="post-excerpt">从目标拆解、复盘到自动化脚本，建立可持续的效率模型。</p>
+            <div class="tag-row">
+              <span class="tag">效率</span>
+              <span class="tag">工具</span>
+            </div>
+          </div>
+        </div>
+        <div class="list-item">
+          <div class="cover"></div>
+          <div>
+            <div class="post-date">2024.11.22</div>
+            <h3 class="post-title">设计系统的可扩展策略</h3>
+            <p class="post-excerpt">从 Token、组件到文档治理，构建可生长的 UI 资产。</p>
+            <div class="tag-row">
+              <span class="tag">设计系统</span>
+              <span class="tag">前端</span>
+            </div>
+          </div>
+        </div>
+        <div class="pagination">
+          <span class="page-pill">上一页</span>
+          <span class="page-pill">1</span>
+          <span class="page-pill">2</span>
+          <span class="page-pill">下一页</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="page-label">文章详情页预览</div>
+  <section class="section">
+    <article class="article-detail">
+      <p class="article-meta">2024.12.20 · 阅读时间 8 分钟 · React / 性能优化</p>
+      <h1>构建高性能的 React 应用：从理论到实践</h1>
+      <div class="toc">
+        目录：虚拟 DOM · 组件记忆化 · 渲染切片 · 性能监控
+      </div>
+      <p>在现代 Web 开发中，性能优化是一种对用户体验的承诺。本文从底层原理出发，拆解 React 如何提升渲染效率，并给出可落地的工程方案。</p>
+      <h2>理解虚拟 DOM</h2>
+      <p>虚拟 DOM 是 React 性能优化的核心。它是一棵轻量级的对象树，用于描述真实 DOM 结构。</p>
+      <div class="code-block">const Expensive = memo(({ data }) =&gt; data.map(item =&gt; &lt;Item key={item.id} /&gt;));</div>
+      <h2>合理使用 useMemo</h2>
+      <p>避免重复计算，把昂贵的开销放到稳定的缓存里。</p>
+    </article>
+  </section>
+
+  <div class="page-label">登录页预览</div>
+  <section class="section">
+    <div class="container">
+      <div class="login-box">
+        <h3>欢迎回来</h3>
+        <p class="post-excerpt">使用站长账号进入编辑后台</p>
+        <input class="login-input" placeholder="邮箱" />
+        <input class="login-input" placeholder="密码" type="password" />
+        <a class="btn-primary" href="#">登录</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="page-label">后台仪表盘预览</div>
+  <section class="section">
+    <div class="container">
+      <div class="admin-grid">
+        <div class="admin-card">
+          <div class="post-date">本月发布</div>
+          <h3 class="post-title">6 篇</h3>
+        </div>
+        <div class="admin-card">
+          <div class="post-date">草稿</div>
+          <h3 class="post-title">3 篇</h3>
+        </div>
+        <div class="admin-card">
+          <div class="post-date">阅读增长</div>
+          <h3 class="post-title">+24%</h3>
+        </div>
+      </div>
+      <div class="table">
+        <div class="table-row">
+          <strong>文章</strong>
+          <strong>状态</strong>
+          <strong>更新时间</strong>
+          <strong>操作</strong>
+        </div>
+        <div class="table-row">
+          <span>工程师的效率系统</span>
+          <span>已发布</span>
+          <span>12-01</span>
+          <span>编辑</span>
+        </div>
+        <div class="table-row">
+          <span>设计系统的可扩展策略</span>
+          <span>草稿</span>
+          <span>11-22</span>
+          <span>继续写</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="page-label">编辑器预览</div>
+  <section class="section">
+    <div class="container">
+      <div class="editor-wrap">
+        <input class="editor-title" placeholder="请输入标题" value="React 性能优化实践" />
+        <div class="editor-block">/ 输入命令或直接开始写作...</div>
+        <div class="editor-block">## 当输入 # / ## / ### 会自动转为标题块</div>
+        <div class="editor-block">- 支持列表、引用、代码块等内容结构</div>
+        <div class="editor-block">```tsx\nconst App = () =&gt; &lt;Main /&gt;;\n```</div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const heatmap = document.getElementById('heatmap-a');
+    const levels = ['heat-cell', 'heat-cell heat-1', 'heat-cell heat-2', 'heat-cell heat-3', 'heat-cell heat-4'];
+    for (let i = 0; i < 210; i++) {
+      const div = document.createElement('div');
+      div.className = levels[Math.floor(Math.random() * levels.length)];
+      heatmap.appendChild(div);
+    }
+  </script>
+</body>
+</html>

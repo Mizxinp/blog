@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Theme Variant A - Clean Air</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Merriweather:wght@300;400;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #ffffff;
+      --text-color: #222222;
+      --text-muted: #666666;
+      --accent-color: #222222;
+      --border-color: #eeeeee;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: 'Merriweather', serif;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Header */
+    header {
+      padding: 2rem 0;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: -0.5px;
+      color: var(--text-color);
+      text-decoration: none;
+    }
+
+    nav a {
+      margin-left: 2rem;
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: var(--accent-color);
+    }
+
+    /* Hero */
+    .hero {
+      padding: 6rem 0;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      color: var(--text-color);
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto;
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+    }
+
+    /* Content */
+    .section-title {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+      border-bottom: 2px solid var(--text-color);
+      display: inline-block;
+      padding-bottom: 0.5rem;
+    }
+
+    .posts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 3rem;
+      margin-bottom: 4rem;
+    }
+
+    .post-card {
+      transition: transform 0.2s;
+    }
+
+    .post-card:hover .post-title {
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 4px;
+    }
+
+    .post-meta {
+      font-size: 0.85rem;
+      color: #888;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .post-title {
+      font-size: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .post-summary {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .tags {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .tag {
+      font-size: 0.75rem;
+      padding: 0.2rem 0.6rem;
+      background: #f5f5f5;
+      color: #555;
+      border-radius: 4px;
+      text-decoration: none;
+    }
+
+    /* Footer */
+    footer {
+      padding: 4rem 0;
+      border-top: 1px solid var(--border-color);
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="container">
+    <a href="#" class="logo">Mozhou.</a>
+    <nav>
+      <a href="#">首页</a>
+      <a href="#">文章</a>
+      <a href="#">关于</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1>思考与创造</h1>
+      <p>AI 改变世界，记录技术与生活的点滴。</p>
+    </section>
+
+    <h2 class="section-title">最新文章</h2>
+
+    <div class="posts-grid">
+      <article class="post-card">
+        <div class="post-meta">2023年12月26日</div>
+        <h3 class="post-title">探索大语言模型的未来</h3>
+        <p class="post-summary">人工智能正在以前所未有的速度进化，本文探讨了未来的可能性与挑战...</p>
+        <div class="tags">
+          <span class="tag">AI</span>
+          <span class="tag">LLM</span>
+        </div>
+      </article>
+
+      <article class="post-card">
+        <div class="post-meta">2023年12月20日</div>
+        <h3 class="post-title">Next.js 14 的新特性解析</h3>
+        <p class="post-summary">深入了解 Next.js 14 带来的 Server Actions 和 partial prerendering。</p>
+        <div class="tags">
+          <span class="tag">Next.js</span>
+          <span class="tag">React</span>
+        </div>
+      </article>
+
+      <article class="post-card">
+        <div class="post-meta">2023年12月15日</div>
+        <h3 class="post-title">设计师这种职业会被AI取代吗？</h3>
+        <p class="post-summary">与其焦虑，不如思考如何利用 AI 来增强我们的创造力。</p>
+        <div class="tags">
+          <span class="tag">Design</span>
+          <span class="tag">Future</span>
+        </div>
+      </article>
+
+      <article class="post-card">
+        <div class="post-meta">2023年12月10日</div>
+        <h3 class="post-title">构建个人知识库的最佳实践</h3>
+        <p class="post-summary">如何有效地管理和利用个人积累的庞大信息流。</p>
+        <div class="tags">
+          <span class="tag">PKM</span>
+          <span class="tag">Obsidian</span>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2023 Mozhou Blog. All rights reserved.</p>
+  </footer>
+
+</body>
+
+</html>

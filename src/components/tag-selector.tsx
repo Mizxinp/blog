@@ -63,25 +63,25 @@ export function TagSelector({ selectedTags, onTagsChange, className }: TagSelect
   return (
     <div className={className}>
       <div className="flex items-center justify-between mb-2">
-        <Label className="text-sm font-medium">标签</Label>
-        <Button variant="ghost" size="sm" asChild>
+        <Label className="text-sm font-medium text-foreground">标签</Label>
+        <Button variant="ghost" size="sm" asChild className="hover:text-primary hover:bg-accent-soft">
           <Link href="/admin/tags" target="_blank">
             <Settings className="h-4 w-4 mr-1" />
             管理标签
           </Link>
         </Button>
       </div>
-      
+
       {/* 已选择的标签 */}
       {selectedTags.length > 0 && (
         <div className="flex flex-wrap gap-2 mb-3">
           {selectedTags.map((tag) => (
-            <Badge key={tag.id} variant="secondary" className="flex items-center gap-1">
+            <Badge key={tag.id} variant="secondary" className="flex items-center gap-1 bg-accent-soft text-primary">
               {tag.name}
               <Button
                 variant="ghost"
                 size="sm"
-                className="h-auto p-0 hover:bg-transparent"
+                className="h-auto p-0 hover:bg-transparent text-primary"
                 onClick={() => handleRemoveTag(tag.id)}
               >
                 <X className="h-3 w-3" />
@@ -94,21 +94,21 @@ export function TagSelector({ selectedTags, onTagsChange, className }: TagSelect
       {/* 添加标签选择器 */}
       {unselectedTags.length > 0 ? (
         <Select onValueChange={handleAddTag}>
-          <SelectTrigger className="w-full">
+          <SelectTrigger className="w-full border-border bg-card focus:border-primary">
             <SelectValue placeholder="选择标签..." />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="border-border bg-card">
             {unselectedTags.map((tag) => (
-              <SelectItem key={tag.id} value={tag.id.toString()}>
+              <SelectItem key={tag.id} value={tag.id.toString()} className="focus:bg-accent-soft focus:text-primary">
                 {tag.name}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
       ) : availableTags.length === 0 ? (
-        <div className="text-center py-4 border border-dashed rounded-lg">
+        <div className="text-center py-4 border border-dashed border-border rounded-lg bg-card">
           <p className="text-sm text-muted-foreground mb-2">暂无可用标签</p>
-          <Button variant="outline" size="sm" asChild>
+          <Button variant="outline" size="sm" asChild className="border-border hover:border-primary hover:text-primary">
             <Link href="/admin/tags" target="_blank">
               <Plus className="h-4 w-4 mr-1" />
               创建标签
