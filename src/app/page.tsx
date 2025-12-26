@@ -147,7 +147,7 @@ export default async function HomePage() {
                 ))}
               </div>
               <div className="text-center mt-12">
-                <Button variant="outline" asChild size="lg" className="border-border hover:border-primary hover:text-primary">
+                <Button variant="outline" asChild size="lg" className="border-border text-foreground hover:border-primary hover:text-primary hover:bg-transparent">
                   <Link href="/posts">查看全部文章 →</Link>
                 </Button>
               </div>

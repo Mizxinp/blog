@@ -228,7 +228,7 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
 
           <div className="flex items-center gap-2">
             {post.status === 'PUBLISHED' && (
-              <Button variant="outline" size="sm" asChild className="border-border hover:border-primary hover:text-primary">
+              <Button variant="outline" size="sm" asChild className="border-border text-foreground hover:border-primary hover:text-primary hover:bg-transparent">
                 <Link href={`/posts/${post.slug}`}>
                   <Eye className="mr-2 h-4 w-4" />
                   预览
@@ -241,7 +241,7 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
               size="sm"
               onClick={() => handleSave(true)}
               disabled={saving}
-              className="border-border hover:border-primary hover:text-primary"
+              className="border-border text-foreground hover:border-primary hover:text-primary hover:bg-transparent"
             >
               <Save className="mr-2 h-4 w-4" />
               保存

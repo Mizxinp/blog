@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { ThemeToggle } from '@/components/theme-toggle'
+import { Logo } from '@/components/logo'
 import { cn } from '@/lib/utils'
 import { Menu, X } from 'lucide-react'
 
@@ -60,7 +61,7 @@ export function Navigation() {
   const navItems = [
     { href: '/', label: '首页' },
     { href: '/posts', label: '文章' },
-    { href: '/about', label: '关于' }
+    // { href: '/about', label: '关于' }
   ]
 
   return (
@@ -69,10 +70,8 @@ export function Navigation() {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <div className="flex items-center">
-            <Link href="/" className="flex items-center space-x-2 group">
-              <span className="text-xl font-semibold tracking-wide text-foreground group-hover:text-primary transition-colors">
-                墨舟的博客
-              </span>
+            <Link href="/" className="flex items-center group">
+              <Logo />
             </Link>
           </div>
 
@@ -104,7 +103,7 @@ export function Navigation() {
               {!loading && (
                 user ? (
                   <>
-                    <Button variant="outline" size="sm" asChild className="border-border hover:border-primary hover:text-primary">
+                    <Button variant="outline" size="sm" asChild className="border-border text-foreground hover:border-primary hover:text-primary hover:bg-transparent">
                       <Link href="/admin">管理后台</Link>
                     </Button>
                     <Button variant="ghost" size="sm" onClick={handleLogout} className="text-muted-foreground hover:text-foreground">

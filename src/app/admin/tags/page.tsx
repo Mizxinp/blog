@@ -194,7 +194,7 @@ export default function TagsManagePage() {
                 </p>
               </div>
               <div className="flex justify-end gap-2">
-                <Button type="button" variant="outline" onClick={() => setDialogOpen(false)} className="border-border hover:border-primary hover:text-primary">
+                <Button type="button" variant="outline" onClick={() => setDialogOpen(false)} className="border-border text-foreground hover:border-primary hover:text-primary hover:bg-transparent">
                   取消
                 </Button>
                 <Button type="submit" disabled={submitting} className="bg-primary text-primary-foreground hover:bg-primary/90">

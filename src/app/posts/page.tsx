@@ -130,7 +130,6 @@ function PostsPageContent() {
         {/* 标签筛选 */}
         {tags.length > 0 && (
           <div className="max-w-4xl mx-auto">
-            <h3 className="text-sm font-medium text-muted-foreground mb-4 text-center tracking-wide">按标签筛选</h3>
             <div className="flex flex-wrap gap-3 mb-6 justify-center">
               {tags.map((tag) => (
                 <Badge
@@ -154,7 +153,7 @@ function PostsPageContent() {
                   variant="outline"
                   size="sm"
                   onClick={clearFilters}
-                  className="border-border hover:border-primary hover:text-primary"
+                  className="border-border text-foreground hover:border-primary hover:text-primary hover:bg-transparent"
                 >
                   清除筛选条件
                 </Button>
@@ -195,7 +194,7 @@ function PostsPageContent() {
                   : '敬请期待更多精彩内容'}
               </p>
               {(searchQuery || currentTag) && (
-                <Button variant="outline" onClick={clearFilters} className="border-border hover:border-primary hover:text-primary">
+                <Button variant="outline" onClick={clearFilters} className="border-border text-foreground hover:border-primary hover:text-primary hover:bg-transparent">
                   查看所有文章
                 </Button>
               )}

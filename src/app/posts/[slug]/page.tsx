@@ -102,13 +102,13 @@ export default async function PostDetailPage({
       <article className="max-w-3xl mx-auto">
         <header className="text-center mb-12">
           {/* 分类标签 */}
-          {post.tags.length > 0 && (
+          {/* {post.tags.length > 0 && (
             <div className="mb-6">
               <span className="text-xs text-primary tracking-widest uppercase">
                 {post.tags[0].name}
               </span>
             </div>
-          )}
+          )} */}
 
           {/* 标题 */}
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-medium mb-8 leading-relaxed tracking-wide text-foreground">
@@ -132,19 +132,19 @@ export default async function PostDetailPage({
 
             <span className="text-border">·</span>
 
-            <div className="flex items-center gap-2">
+            {/* <div className="flex items-center gap-2">
               <Clock className="h-4 w-4" />
               <span>阅读约 5 分钟</span>
-            </div>
+            </div> */}
           </div>
         </header>
 
         {/* 装饰分隔线 */}
-        <div className="flex items-center justify-center gap-4 mb-12">
+        {/* <div className="flex items-center justify-center gap-4 mb-12">
           <div className="w-16 h-px bg-border" />
           <span className="text-muted-foreground text-xs">◇</span>
           <div className="w-16 h-px bg-border" />
-        </div>
+        </div> */}
 
         {/* 文章内容 */}
         <div className="prose prose-lg dark:prose-invert max-w-none
@@ -171,7 +171,7 @@ export default async function PostDetailPage({
         </div>
 
         {/* 标签列表 */}
-        {post.tags.length > 0 && (
+        {/* {post.tags.length > 0 && (
           <div className="mt-16 pt-8 border-t border-border">
             <div className="flex flex-wrap gap-3 justify-center">
               {post.tags.map((tag) => (
@@ -186,12 +186,12 @@ export default async function PostDetailPage({
               ))}
             </div>
           </div>
-        )}
+        )} */}
 
         {/* 文章底部 */}
         <footer className="mt-16 pt-12 border-t border-border">
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button variant="outline" asChild className="border-border hover:border-primary hover:text-primary">
+            <Button variant="outline" asChild className="border-border text-foreground hover:border-primary hover:text-primary hover:bg-transparent">
               <Link href="/posts">更多文章 →</Link>
             </Button>
             <Button variant="default" asChild className="bg-primary text-primary-foreground hover:bg-primary/90">

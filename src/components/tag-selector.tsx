@@ -108,7 +108,7 @@ export function TagSelector({ selectedTags, onTagsChange, className }: TagSelect
       ) : availableTags.length === 0 ? (
         <div className="text-center py-4 border border-dashed border-border rounded-lg bg-card">
           <p className="text-sm text-muted-foreground mb-2">暂无可用标签</p>
-          <Button variant="outline" size="sm" asChild className="border-border hover:border-primary hover:text-primary">
+          <Button variant="outline" size="sm" asChild className="border-border text-foreground hover:border-primary hover:text-primary hover:bg-transparent">
             <Link href="/admin/tags" target="_blank">
               <Plus className="h-4 w-4 mr-1" />
               创建标签
