@@ -1,8 +1,10 @@
 'use client'
 
 import Link from 'next/link'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { cn } from '@/lib/utils'
+import { CalendarIcon } from 'lucide-react'
 
 interface PostCardProps {
   post: {
@@ -23,76 +25,69 @@ interface PostCardProps {
 export function PostCard({ post }: PostCardProps) {
   return (
     <Link href={`/posts/${post.slug}`} className="block h-full group">
-      <Card className="neo-card h-full bg-card cursor-pointer relative overflow-hidden
-        border border-border transition-all duration-300 ease-in-out hover:shadow-lg">
-        {/* 日间模式：左侧装饰线 */}
-        <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300 dark:hidden" />
+      <Card className="h-full flex flex-col overflow-hidden border-border bg-card transition-all duration-300 hover:shadow-md hover:border-primary/40">
 
-        <CardHeader className="pb-2 pt-4 px-4">
-          <div className="space-y-2">
-            {/* 日期 */}
-            {post.publishAt && (
-              <CardDescription className="text-xs text-muted-foreground tracking-wide">
-                {new Date(post.publishAt).toLocaleDateString('zh-CN', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                })}
-              </CardDescription>
-            )}
-
-            {/* 标题 */}
-            <CardTitle className="line-clamp-2 text-base leading-relaxed tracking-wide">
-              <span className="text-foreground group-hover:text-primary transition-colors">
-                {post.title}
-              </span>
-            </CardTitle>
+        {/* 图片区域 - 仅当有封面图时显示，且保持紧凑 */}
+        {post.coverUrl && (
+          <div className="relative w-full aspect-[2/1] overflow-hidden bg-muted/50 border-b border-border/50">
+            <img
+              src={post.coverUrl}
+              alt={post.title}
+              className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+            />
           </div>
+        )}
+
+        <CardHeader className="p-4 pb-2 space-y-1">
+          <CardTitle className="text-lg font-semibold leading-tight group-hover:text-primary transition-colors line-clamp-2">
+            {post.title}
+          </CardTitle>
+
+          {/* 标签放在标题下方或上方都可以，这里放在标题和正文之间，或者底部？用户要求紧凑且时间在下。通常标签和时间在一起比较好。 */}
         </CardHeader>
 
-        <CardContent className="pt-0 px-4 pb-4">
-          <div className="space-y-3">
-            {/* 摘要 */}
-            {post.summary && (
-              <p
-                className="text-sm text-muted-foreground line-clamp-2 leading-relaxed"
-                dangerouslySetInnerHTML={{ __html: post.summary }}
-              />
-            )}
+        {post.summary && (
+          <CardContent className="p-4 pt-0 flex-1">
+            <div
+              className="text-sm text-muted-foreground leading-normal line-clamp-3 md:line-clamp-4"
+              dangerouslySetInnerHTML={{ __html: post.summary }}
+            />
+          </CardContent>
+        )}
 
-            {/* 标签 */}
-            {post.tags.length > 0 && (
-              <div className="flex flex-wrap gap-2" onClick={(e) => e.stopPropagation()}>
-                {post.tags.slice(0, 3).map((tag) => (
-                  <Link
-                    key={tag.id}
-                    href={`/posts?tag=${tag.slug}`}
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <Badge
-                      variant="outline"
-                      className="neo-tag text-xs py-0.5 px-2 border-border text-muted-foreground hover:bg-accent-soft hover:text-primary transition-all"
-                    >
-                      {tag.name}
-                    </Badge>
-                  </Link>
-                ))}
-                {post.tags.length > 3 && (
-                  <Badge variant="outline" className="neo-tag text-xs py-0.5 px-2 border-border text-muted-foreground transition-all">
-                    +{post.tags.length - 3}
-                  </Badge>
-                )}
-              </div>
+        <CardFooter className="p-4 pt-2 mt-auto bg-muted/5 flex items-center justify-between">
+          {/* <CardFooter className="p-4 pt-2 mt-auto border-t border-border/30 bg-muted/5 flex items-center justify-between"> */}
+          {/* 左侧：时间 */}
+          <div className="flex items-center text-xs text-muted-foreground/80">
+            {post.publishAt && (
+              <>
+                <CalendarIcon className="w-3.5 h-3.5 mr-1.5 opacity-70" />
+                <time>
+                  {new Date(post.publishAt).toLocaleDateString('zh-CN', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit'
+                  })}
+                </time>
+              </>
             )}
-
-            {/* 阅读更多 */}
-            <div className="pt-1">
-              <span className="text-xs text-primary opacity-0 group-hover:opacity-100 transition-opacity tracking-widest">
-                阅读全文 →
-              </span>
-            </div>
           </div>
-        </CardContent>
+
+          {/* 右侧：标签（仅显示第一个，保持紧凑） */}
+          {post.tags.length > 0 && (
+            <div className="flex gap-1.5">
+              {post.tags.slice(0, 2).map(tag => (
+                <Badge
+                  key={tag.id}
+                  variant="outline"
+                  className="text-[10px] px-1.5 py-0 h-5 font-normal border-border/60 text-muted-foreground group-hover:border-primary/30 group-hover:text-primary transition-colors bg-background/50"
+                >
+                  {tag.name}
+                </Badge>
+              ))}
+            </div>
+          )}
+        </CardFooter>
       </Card>
     </Link>
   )
