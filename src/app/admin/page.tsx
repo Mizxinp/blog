@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { FileText, Tags, Settings, BarChart3 } from 'lucide-react'
+import { ContributionHeatmap } from '@/components/contribution-heatmap'
 
 export default function AdminPage() {
   const adminCards = [
@@ -39,6 +40,11 @@ export default function AdminPage() {
         <h1 className="text-3xl font-medium tracking-wide text-foreground">管 理 中 心</h1>
         <p className="text-muted-foreground mt-2">欢迎来到博客管理中心，选择您要管理的功能</p>
       </div>
+
+      {/* 创作指数 */}
+      <section className="mb-8">
+        <ContributionHeatmap showSummary={false} />
+      </section>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2">
         {adminCards.map((card) => {

@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button'
 export const dynamic = 'force-dynamic'
 import { Badge } from '@/components/ui/badge'
 import { PostCard } from '@/components/post-card'
-import { ContributionHeatmap } from '@/components/contribution-heatmap'
 import { prisma } from '@/lib/prisma'
 
 // 直接调用数据库获取数据
@@ -84,7 +83,7 @@ export default async function HomePage() {
   return (
     <div className="py-8">
       {/* Hero 区域 */}
-      <section className="text-center py-20">
+      <section className="text-center">
         <div className="max-w-4xl mx-auto">
           {/* 装饰性引言 */}
           <p className="text-sm text-muted-foreground tracking-widest mb-6">
@@ -104,15 +103,8 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 创作指数模块 */}
-      <section className="py-12 border-b border-border">
-        <div className="max-w-6xl mx-auto">
-          <ContributionHeatmap showSummary={false} />
-        </div>
-      </section>
-
       {/* 最新文章 */}
-      <section id="recent-posts" className="py-16">
+      <section id="recent-posts" className="">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center justify-between mb-12">
             <div>
@@ -141,7 +133,7 @@ export default async function HomePage() {
 
           {postsData.items.length > 0 ? (
             <>
-              <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
                 {postsData.items.map((post) => (
                   <PostCard key={post.id} post={post} />
                 ))}

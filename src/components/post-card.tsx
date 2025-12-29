@@ -28,8 +28,8 @@ export function PostCard({ post }: PostCardProps) {
         {/* 日间模式：左侧装饰线 */}
         <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300 dark:hidden" />
 
-        <CardHeader className="pb-4">
-          <div className="space-y-3">
+        <CardHeader className="pb-2 pt-4 px-4">
+          <div className="space-y-2">
             {/* 日期 */}
             {post.publishAt && (
               <CardDescription className="text-xs text-muted-foreground tracking-wide">
@@ -42,7 +42,7 @@ export function PostCard({ post }: PostCardProps) {
             )}
 
             {/* 标题 */}
-            <CardTitle className="line-clamp-2 text-lg leading-relaxed tracking-wide">
+            <CardTitle className="line-clamp-2 text-base leading-relaxed tracking-wide">
               <span className="text-foreground group-hover:text-primary transition-colors">
                 {post.title}
               </span>
@@ -50,12 +50,12 @@ export function PostCard({ post }: PostCardProps) {
           </div>
         </CardHeader>
 
-        <CardContent className="pt-0">
-          <div className="space-y-4">
+        <CardContent className="pt-0 px-4 pb-4">
+          <div className="space-y-3">
             {/* 摘要 */}
             {post.summary && (
               <p
-                className="text-sm text-muted-foreground line-clamp-3 leading-relaxed"
+                className="text-sm text-muted-foreground line-clamp-2 leading-relaxed"
                 dangerouslySetInnerHTML={{ __html: post.summary }}
               />
             )}
@@ -86,7 +86,7 @@ export function PostCard({ post }: PostCardProps) {
             )}
 
             {/* 阅读更多 */}
-            <div className="pt-2">
+            <div className="pt-1">
               <span className="text-xs text-primary opacity-0 group-hover:opacity-100 transition-opacity tracking-widest">
                 阅读全文 →
               </span>

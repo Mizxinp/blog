@@ -1,31 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Noto_Serif_SC, JetBrains_Mono } from "next/font/google";
 import { Toaster } from '@/components/ui/sonner'
 import { Navigation } from '@/components/navigation'
 import { ThemeProvider } from '@/components/theme-provider'
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const notoSerifSC = Noto_Serif_SC({
-  variable: "--font-noto-serif",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains",
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
-});
 
 export const metadata: Metadata = {
   title: "墨舟的博客 - 记录技术探索与生活思考",
@@ -40,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="zh-CN" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${notoSerifSC.variable} ${jetbrainsMono.variable} antialiased bg-background`}
+        className="antialiased bg-background"
       >
         <ThemeProvider>
           <Navigation />

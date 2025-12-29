@@ -98,25 +98,23 @@ export function Navigation() {
             {/* 主题切换 */}
             <ThemeToggle />
 
-            {/* 桌面端用户菜单 */}
-            <div className="hidden md:flex items-center space-x-2">
-              {!loading && (
-                user ? (
+            {/* 桌面端用户菜单 - 仅在 admin 页面显示 */}
+            {pathname.startsWith('/admin') && (
+              <div className="hidden md:flex items-center space-x-2">
+                {!loading && user && (
                   <>
-                    <Button variant="outline" size="sm" asChild className="border-border text-foreground hover:border-primary hover:text-primary hover:bg-transparent">
-                      <Link href="/admin">管理后台</Link>
-                    </Button>
+                    {pathname !== '/admin' && (
+                      <Button variant="outline" size="sm" asChild className="border-border text-foreground hover:border-primary hover:text-primary hover:bg-transparent">
+                        <Link href="/admin">管理中心</Link>
+                      </Button>
+                    )}
                     <Button variant="ghost" size="sm" onClick={handleLogout} className="text-muted-foreground hover:text-foreground">
                       登出
                     </Button>
                   </>
-                ) : (
-                  <Button variant="default" size="sm" asChild className="bg-primary text-primary-foreground hover:bg-primary/90">
-                    <Link href="/login">登录</Link>
-                  </Button>
-                )
-              )}
-            </div>
+                )}
+              </div>
+            )}
 
             {/* 移动端菜单按钮 */}
             <Button
@@ -150,16 +148,18 @@ export function Navigation() {
                 </Link>
               ))}
 
-              {/* 移动端用户菜单 */}
-              <div className="pt-3 border-t border-border space-y-2">
-                {!loading && (
-                  user ? (
+              {/* 移动端用户菜单 - 仅在 admin 页面显示 */}
+              {pathname.startsWith('/admin') && (
+                <div className="pt-3 border-t border-border space-y-2">
+                  {!loading && user && (
                     <>
-                      <Link href="/admin" onClick={() => setMobileMenuOpen(false)}>
-                        <Button variant="outline" size="sm" className="w-full border-border">
-                          管理后台
-                        </Button>
-                      </Link>
+                      {pathname !== '/admin' && (
+                        <Link href="/admin" onClick={() => setMobileMenuOpen(false)}>
+                          <Button variant="outline" size="sm" className="w-full border-border">
+                            管理中心
+                          </Button>
+                        </Link>
+                      )}
                       <Button
                         variant="ghost"
                         size="sm"
@@ -172,15 +172,9 @@ export function Navigation() {
                         登出
                       </Button>
                     </>
-                  ) : (
-                    <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
-                      <Button variant="default" size="sm" className="w-full bg-primary text-primary-foreground">
-                        登录
-                      </Button>
-                    </Link>
-                  )
-                )}
-              </div>
+                  )}
+                </div>
+              )}
             </nav>
           </div>
         )}
