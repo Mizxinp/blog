@@ -9,15 +9,16 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  password  String
-  name      String?
-  avatarUrl String?
-  role      Role     @default(OWNER)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  posts     Post[]
+  id           Int           @id @default(autoincrement())
+  email        String        @unique
+  password     String
+  name         String?
+  avatarUrl    String?
+  role         Role          @default(OWNER)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  posts        Post[]
+  htmlPreviews HtmlPreview[]
 
   @@map("users")
 }
@@ -71,4 +72,26 @@ enum PostStatus {
   DRAFT
   PUBLISHED
   DELETED_SOFT
+}
+
+model HtmlPreview {
+  id        Int               @id @default(autoincrement())
+  slug      String            @unique
+  title     String            @db.VarChar(255)
+  content   String            @db.LongText
+  status    HtmlPreviewStatus @default(DRAFT)
+  authorId  Int
+  author    User              @relation(fields: [authorId], references: [id])
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+  publishAt DateTime?
+
+  @@index([authorId])
+  @@index([status])
+  @@map("html_previews")
+}
+
+enum HtmlPreviewStatus {
+  DRAFT
+  PUBLISHED
 }

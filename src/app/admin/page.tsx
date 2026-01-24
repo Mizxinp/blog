@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { FileText, Tags, Settings, BarChart3, PlusCircle } from 'lucide-react'
+import { FileText, Tags, Settings, BarChart3, PlusCircle, Code } from 'lucide-react'
 import { ContributionHeatmap } from '@/components/contribution-heatmap'
 import { toast } from 'sonner'
 
@@ -44,6 +44,12 @@ export default function AdminPage() {
       description: '管理文章标签，添加、编辑和删除标签分类',
       icon: Tags,
       href: '/admin/tags',
+    },
+    {
+      title: 'HTML 预览',
+      description: '管理 HTML 预览页面，创建可分享的 HTML 内容',
+      icon: Code,
+      href: '/admin/html',
     },
     {
       title: '系统设置',
