@@ -2,10 +2,36 @@
 
 import Link from 'next/link'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { FileText, Tags, Settings, BarChart3 } from 'lucide-react'
+import { FileText, Tags, Settings, BarChart3, PlusCircle } from 'lucide-react'
 import { ContributionHeatmap } from '@/components/contribution-heatmap'
+import { toast } from 'sonner'
 
 export default function AdminPage() {
+  async function createNewPost(e: React.MouseEvent) {
+    e.preventDefault()
+    e.stopPropagation()
+
+    try {
+      const response = await fetch('/api/posts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ title: '未命名文章' }),
+      })
+
+      const data = await response.json()
+
+      if (data.code === '0') {
+        toast.success('文章创建成功')
+        window.location.href = `/admin/editor/${data.result.id}`
+      } else {
+        toast.error(data.message || '创建失败')
+      }
+    } catch {
+      toast.error('创建文章失败')
+    }
+  }
   const adminCards = [
     {
       title: '文章管理',
@@ -56,13 +82,24 @@ export default function AdminPage() {
                 {/* 日间模式：左侧装饰线 */}
                 <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300 dark:hidden" />
                 <CardHeader>
-                  <div className="flex items-center space-x-4">
-                    <div className="neo-tag p-3 rounded bg-accent-soft transition-all">
-                      <Icon className="h-6 w-6 text-primary" />
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <div className="neo-tag p-3 rounded bg-accent-soft transition-all">
+                        <Icon className="h-6 w-6 text-primary" />
+                      </div>
+                      <div>
+                        <CardTitle className="text-xl text-foreground group-hover:text-primary transition-colors">{card.title}</CardTitle>
+                      </div>
                     </div>
-                    <div>
-                      <CardTitle className="text-xl text-foreground group-hover:text-primary transition-colors">{card.title}</CardTitle>
-                    </div>
+                    {card.href === '/admin/posts' && (
+                      <button
+                        onClick={createNewPost}
+                        className="p-2 rounded-full hover:bg-accent-soft transition-colors"
+                        title="新建文章"
+                      >
+                        <PlusCircle className="h-5 w-5 text-muted-foreground hover:text-primary transition-colors" />
+                      </button>
+                    )}
                   </div>
                 </CardHeader>
                 <CardContent>

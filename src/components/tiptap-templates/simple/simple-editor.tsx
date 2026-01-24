@@ -70,6 +70,7 @@ import { ThemeToggle } from "@/components/tiptap-templates/simple/theme-toggle"
 
 // --- Lib ---
 import { handleImageUpload, MAX_FILE_SIZE } from "@/lib/tiptap-utils"
+import { extractAllExternalImageUrls, migrateImages, replaceImageUrls, hasExternalImages } from "@/lib/image-migration"
 
 // --- Styles ---
 import "@/components/tiptap-templates/simple/simple-editor.scss"
@@ -199,6 +200,74 @@ export function SimpleEditor({ content: initialContent, onChange, placeholder, c
   >("main")
   const toolbarRef = React.useRef<HTMLDivElement>(null)
 
+  // 图片迁移相关状态
+  const migratedUrlsRef = React.useRef<Set<string>>(new Set())
+  const [isMigrating, setIsMigrating] = React.useState(false)
+  const [migratingCount, setMigratingCount] = React.useState(0)
+
+  // 标记是否刚发生粘贴事件
+  const pendingPasteRef = React.useRef(false)
+
+  // 异步处理图片迁移
+  const handleImageMigrationAsync = async (
+    editorInstance: ReturnType<typeof useEditor>,
+    html: string
+  ) => {
+    if (!editorInstance || isMigrating) return
+
+    const externalUrls = extractAllExternalImageUrls(html)
+
+    // 过滤掉已经处理过的 URL
+    const newUrls = externalUrls.filter(url => !migratedUrlsRef.current.has(url))
+
+    if (newUrls.length === 0) return
+
+    // 开始迁移，显示 loading
+    setIsMigrating(true)
+    setMigratingCount(newUrls.length)
+
+    // 禁用编辑器
+    editorInstance.setEditable(false)
+
+    try {
+      const migrations = await migrateImages(newUrls)
+
+      // 记录已处理的 URL（包括失败的，避免重复尝试）
+      newUrls.forEach(url => migratedUrlsRef.current.add(url))
+
+      // 过滤出成功迁移的结果
+      const successMigrations = migrations.filter(m => !m.error)
+
+      if (successMigrations.length > 0) {
+        const currentHtml = editorInstance.getHTML()
+        const updatedHtml = replaceImageUrls(currentHtml, successMigrations)
+
+        // 保存当前光标位置
+        const { from, to } = editorInstance.state.selection
+
+        // 更新编辑器内容
+        editorInstance.commands.setContent(updatedHtml)
+
+        // 尝试恢复光标位置
+        try {
+          editorInstance.commands.setTextSelection({ from, to })
+        } catch {
+          // 如果位置无效，忽略错误
+        }
+
+        // 触发 onChange
+        onChange?.(updatedHtml)
+      }
+    } catch (error) {
+      console.error('Image migration failed:', error)
+    } finally {
+      // 恢复编辑器
+      editorInstance.setEditable(true)
+      setIsMigrating(false)
+      setMigratingCount(0)
+    }
+  }
+
   const editor = useEditor({
     immediatelyRender: false,
     shouldRerenderOnTransaction: false,
@@ -210,9 +279,26 @@ export function SimpleEditor({ content: initialContent, onChange, placeholder, c
         "aria-label": placeholder || "Main content area, start typing to enter text.",
         class: `simple-editor ${className || ''}`.trim(),
       },
+      handlePaste: (_view, event) => {
+        // 检查粘贴内容是否包含外部图片（HTML 或 Markdown 格式）
+        const html = event.clipboardData?.getData('text/html') || ''
+        const text = event.clipboardData?.getData('text/plain') || ''
+
+        if (hasExternalImages(html) || hasExternalImages(text)) {
+          pendingPasteRef.current = true
+        }
+        return false // 返回 false 让默认粘贴行为继续
+      },
     },
-    onUpdate: ({ editor }) => {
-      onChange?.(editor.getHTML())
+    onUpdate: ({ editor: editorInstance }) => {
+      const html = editorInstance.getHTML()
+      onChange?.(html)
+
+      // 如果刚发生粘贴事件，检查并迁移外部图片
+      if (pendingPasteRef.current) {
+        pendingPasteRef.current = false
+        handleImageMigrationAsync(editorInstance, html)
+      }
     },
     extensions: [
       StarterKit.configure({
@@ -284,11 +370,23 @@ export function SimpleEditor({ content: initialContent, onChange, placeholder, c
           )}
         </Toolbar>
 
-        <EditorContent
-          editor={editor}
-          role="presentation"
-          className="simple-editor-content"
-        />
+        <div className="simple-editor-content-wrapper">
+          <EditorContent
+            editor={editor}
+            role="presentation"
+            className="simple-editor-content"
+          />
+
+          {/* 图片迁移 Loading 遮罩 */}
+          {isMigrating && (
+            <div className="simple-editor-loading-overlay">
+              <div className="simple-editor-loading-content">
+                <div className="simple-editor-loading-spinner" />
+                <p>正在迁移 {migratingCount} 张图片...</p>
+              </div>
+            </div>
+          )}
+        </div>
       </EditorContext.Provider>
     </div>
   )
