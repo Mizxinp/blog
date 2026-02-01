@@ -40,3 +40,13 @@ https://miz-pub-bucket.oss-cn-beijing.aliyuncs.com/blog
 - migragte同步表
 - 相关接口：api/html/xx
 
+
+## 需求v1.0.2集成编辑器
+
+概述：在项目中集成开源编辑器WeMD， WeMD的源码我已经放到目录的根目录下了 /WeMD，
+说明：
+- 只集成编辑器部分，不需要集成后端和桌面端，也就是只迁移 /WeMD/apps/web这部分内容
+- 将web内容完整迁移到当前项目里
+- 放到当前页面路由： /src/app/editor 下
+- 相关到组件都放到同一目录下
+
