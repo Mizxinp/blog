@@ -72,30 +72,35 @@ export function MarkdownEditor() {
                 const file = item.getAsFile();
                 if (!file) continue;
 
-                // 检查图片大小，超过 2MB 拒绝上传
-                const MAX_SIZE_MB = 2;
+                // 检查图片大小，超过 5MB 拒绝上传
+                const MAX_SIZE_MB = 5;
                 const MAX_SIZE_BYTES = MAX_SIZE_MB * 1024 * 1024;
                 if (file.size > MAX_SIZE_BYTES) {
                   const sizeMB = (file.size / 1024 / 1024).toFixed(1);
                   toast.error(
-                    `请压缩图片后再试，公众号不支持超过 2MB 的图片外链(当前 ${sizeMB}MB)`,
+                    `图片大小不能超过 5MB，当前 ${sizeMB}MB`,
                     { duration: 4000 },
                   );
                   continue;
                 }
 
-                // 使用 ImageHostManager 统一上传
+                // 上传到阿里云 OSS
                 const uploadPromise = (async () => {
-                  const saved = localStorage.getItem("imageHostConfig");
-                  const imageHostConfig = saved
-                    ? JSON.parse(saved)
-                    : { type: "official" };
-                  const { ImageHostManager } = await import(
-                    "../../services/image/ImageUploader"
-                  );
-                  const manager = new ImageHostManager(imageHostConfig);
-                  const url = await manager.upload(file);
-                  return { url, filename: file.name };
+                  const formData = new FormData();
+                  formData.append("file", file);
+
+                  const response = await fetch("/api/upload", {
+                    method: "POST",
+                    body: formData,
+                  });
+
+                  const result = await response.json();
+
+                  if (!response.ok || result.code !== "0") {
+                    throw new Error(result.message || "上传失败");
+                  }
+
+                  return { url: result.result.url, filename: file.name };
                 })();
 
                 const loadingText = `![上传中... ${file.name}]()`;

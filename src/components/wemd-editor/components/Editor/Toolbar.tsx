@@ -30,8 +30,6 @@ import {
 } from "lucide-react";
 import toast from "react-hot-toast";
 
-import { ImageHostManager } from "../../services/image/ImageUploader";
-import type { ImageHostConfig } from "../../services/image/ImageUploader";
 import { setLinkToFootnoteEnabled } from "./ToolbarState";
 import "./Toolbar.css";
 
@@ -343,30 +341,32 @@ export function Toolbar({ onInsert }: ToolbarProps) {
       return;
     }
 
-    // 验证文件大小（最大 2MB，微信公众号限制）
-    if (file.size > 2 * 1024 * 1024) {
+    // 验证文件大小（最大 5MB）
+    if (file.size > 5 * 1024 * 1024) {
       const sizeMB = (file.size / 1024 / 1024).toFixed(1);
-      toast.error(
-        `请压缩图片后再试，公众号不支持超过 2MB 的图片外链(当前 ${sizeMB}MB)`,
-        { duration: 4000 },
-      );
+      toast.error(`图片大小不能超过 5MB，当前 ${sizeMB}MB`, { duration: 4000 });
       return;
     }
 
     setUploading(true);
     try {
-      // 获取图床配置
-      const configStr = localStorage.getItem("imageHostConfig");
-      const config: ImageHostConfig = configStr
-        ? JSON.parse(configStr)
-        : { type: "official" };
+      // 上传到阿里云 OSS
+      const formData = new FormData();
+      formData.append("file", file);
 
-      // 上传图片
-      const manager = new ImageHostManager(config);
-      const url = await manager.upload(file);
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || result.code !== "0") {
+        throw new Error(result.message || "上传失败");
+      }
 
       // 插入 Markdown
-      onInsert("![", `](${url})`, file.name.replace(/\.[^/.]+$/, ""));
+      onInsert("![", `](${result.result.url})`, file.name.replace(/\.[^/.]+$/, ""));
       toast.success("图片上传成功");
     } catch (error) {
       console.error("图片上传失败:", error);
