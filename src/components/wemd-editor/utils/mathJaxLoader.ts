@@ -60,12 +60,25 @@ export function loadMathJax(): Promise<void> {
     script.async = true;
     script.onerror = () => {
       mathJaxPromise = null;
+      script.remove();
       reject(new Error("Failed to load MathJax"));
     };
     document.head.appendChild(script);
   });
 
   return mathJaxPromise;
+}
+
+export async function loadMathJaxForCopy(
+  warn: (...args: unknown[]) => void = console.warn,
+): Promise<boolean> {
+  try {
+    await loadMathJax();
+    return true;
+  } catch (error) {
+    warn("[WeMD] MathJax 加载失败，复制时降级使用 KaTeX 渲染:", error);
+    return false;
+  }
 }
 
 /**

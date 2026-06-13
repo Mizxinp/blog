@@ -1,6 +1,7 @@
 // 编辑器状态管理（主题相关功能已迁移到 themeStore.ts）
 import { create } from "zustand";
 import { useThemeStore } from "./themeStore";
+import { useUITheme } from "../hooks/useUITheme";
 import { copyToWechat as execCopyToWechat } from "../services/wechatCopyService";
 
 export interface ResetOptions {
@@ -180,7 +181,8 @@ export const useEditorStore = create<EditorStore>((set, get) => ({
   copyToWechat: async () => {
     const { markdown } = get();
     const themeStore = useThemeStore.getState();
-    const css = themeStore.getThemeCSS(themeStore.themeId);
+    const uiTheme = useUITheme.getState().theme;
+    const css = themeStore.getThemeCSS(themeStore.themeId, uiTheme === "dark");
 
     try {
       await execCopyToWechat(markdown, css);

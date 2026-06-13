@@ -2,7 +2,7 @@ import toast from "react-hot-toast";
 import mermaid from "mermaid";
 import { processHtml, createMarkdownParser } from "../core";
 import katexCss from "katex/dist/katex.min.css?raw";
-import { loadMathJax } from "../utils/mathJaxLoader";
+import { loadMathJaxForCopy } from "../utils/mathJaxLoader";
 import { hasMathFormula } from "../utils/katexRenderer";
 import { convertLinksToFootnotes } from "../utils/linkFootnote";
 import { getLinkToFootnoteEnabled } from "../components/Editor/ToolbarState";
@@ -190,7 +190,7 @@ export async function copyToWechat(
   try {
     const shouldLoadMath = hasMathFormula(markdown);
     if (shouldLoadMath) {
-      await loadMathJax();
+      await loadMathJaxForCopy();
     }
     const parser = createMarkdownParser();
     const rawHtml = parser.render(markdown);
